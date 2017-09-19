@@ -1,0 +1,44 @@
+/*AJUSTES PROPIOS*/
+header, main, footer {
+    padding-left: 325px;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+      padding-left: 0;
+    }
+}
+
+body {
+    background-color: #ffffff;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.contenedorChat
+{
+  position: fixed;
+  height: 68%;
+  z-index: 999;
+  overflow-y: auto;
+  will-change: transform;
+
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+.colorCampusChat {
+  background-color: #C84A2B !important;
+}
+
+.colorCampusChat-text {
+  color: #C84A2B !important;
+}

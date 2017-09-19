@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/campuschat.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/materialize.css">
+    <!--STYLES END-->
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>    
+    
+    <header>
+      <nav class="top-nav colorCampusChat" id="nav" style="display:none">
+          <div class="row">
+            <div class="valign-wrapper col s10">
+                <img id="imagenUsuarioSeleccionado" src="" alt="" class="circle responsive-img" width="50" height="50"> 
+                <span id="nombreUsuarioSeleccionado" class="white-text"></span>
+            </div>
+
+            <div class="input-field col s1">
+              <div class="btn-floating btn-large waves-effect waves-light white file-field input-field">
+                <div>
+                  <span><i class="material-icons colorCampusChat-text">image</i></span>
+                  <input type="file" accept="image/*">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+            </div>
+
+            <div class="input-field col s1">
+              <div class="btn-floating btn-large waves-effect waves-light white file-field input-field">
+                <div>
+                  <span><i class="material-icons colorCampusChat-text">attach_file</i></span>
+                  <input type="file" accept=".pdf,.doc,.docx,.odt" >
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+            </div>
+          
+      </nav>
+
+      <ul id="slide-out" class="side-nav fixed">
+        <!--Encabezado del usuario imagen, nombre, correo-->
+        <li>
+          <div class="user-view colorCampusChat">
+            <img class="circle" src="<%= session.user.imagen  %>">
+            <a class="center"><span class="white-text name"><%= session.user.name  %> <%= session.user.last_name  %></span></a>
+            <a class="center"><span class="white-text email"><%= session.user.email  %></span></a>
+          </div>
+        </li>
+
+        <!--Buscador de usuarios disponibles-->
+        <li>
+          <div class="nav-wrapper ">
+            <form>
+              <div class="input-field">
+                <input id="search" type="search" placeholder="Buscar..." required>
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+              </div>
+            </form>
+          </div>
+        </li>  
+
+        <!--Listado de usuarios asociados al usuario autenticado-->
+        <% _.each(rawResult, function(user) {%>
+           <li>
+              <a href="#" onclick="usuarioSeleccionado({'nombre':'<%= user.nombreCompaniero %>', 'apellido': '<%= user.apellido1Companiero %>','imagen':'<%= user.imagen %>'})">
+                <div class="valign-wrapper">
+                    <img src="<%= user.imagen %>" alt="" class="circle responsive-img" width="50" height="50"> 
+                    <span class="black-text">
+                      <%=user.nombreCompaniero%> <%=user.apellido1Companiero%> 
+                    </span>
+                </div>
+              </a>
+              <div class="divider"></div>
+              <div class="divider"></div>          
+
+            </li>  
+        <% })%>         
+        
+      </ul>
+      
+    </header>
+    
+    <main>
+
+        <div class="container center" id="logoInicio">
+          <img class="responsive-img" width="650" src="/images/logo2.png">                    
+        </div>
+
+        <!--Contenedor de mensajes -->
+        <div class="row contenedorChat">
+
+        <!--
+          <div class="col s12">
+            <div class="col s6">
+              <div class="valign-wrapper">
+                  <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                  <span class="black-text">
+                    Buenos días, Sr.Heiner Jiménez.
+                  </span>
+              </div>
+              <br>               
+            </div>            
+          </div>
+
+          <div class="col s12">
+            <div class="col s6">
+              <div class="valign-wrapper">
+                  <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                  <span class="black-text">
+                    ¿Cómo se encuentra?
+                  </span>
+              </div>
+              <br>               
+            </div>            
+          </div>
+
+          <div class="col s12">
+            <div class="col s6 offset-s6">
+              <div class="valign-wrapper">
+                  <span class="black-text">
+                    Buenos días, Kendall Doe.
+                    Muy bien y usted?
+                  </span>
+                  <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
+
+              </div>
+              <br>               
+            </div>            
+          </div>
+
+          <div class="col s12">
+            <div class="col s6">
+              <div class="valign-wrapper">
+                  <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                  <span class="black-text">
+                    Muy bien, quería consultarle algunas cosas sobre la tarea de los chicos.
+                  </span>
+              </div>
+              <br>               
+            </div>            
+          </div>
+
+          <div class="col s12">
+            <div class="col s6 offset-s6">
+              <div class="valign-wrapper">
+                  <span class="black-text">
+                    Por supuesto, si puedo ayudarle con mucho gusto.
+                  </span>
+                  <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
+
+              </div>
+              <br>               
+            </div>
+         
+        </div>   
+
+        -->  
+        
+    </div>
+
+    </main>
+
+    <footer>
+      <div class="row" id="footer" style="display:none">
+        <form class="col s12 " onsubmit="return false;">
+          <div class="row">
+            <div class="input-field col s11">
+              <i class="material-icons prefix">message</i>
+              <textarea  id="mensaje" name="mensaje" class="materialize-textarea validate" required></textarea>
+              <label for="mensaje" data-error="No se pueden enviar mensajes en blanco" data-success="Válido">Escribe un mensaje aquí</label>
+            </div>
+            <div class="input-field col s1">
+              <button id="button" class="btn-floating btn-large waves-effect waves-light red" onclick=""><i class="material-icons colorCampusChat">send</i></button>
+            </div>
+          </div>
+        </form>
+      </div>      
+    </footer>
+
+   <!--SCRIPTS-->
+   <script src="/js/dependencies/jquery-3.2.1.min.js"></script>
+   <script src="/js/dependencies/sails.io.js"></script>
+   <script src="/js/materialize.js"></script>
+   <script src="/js/materialize.min.js"></script>
+   <!--SCRIPTS END-->
+
+
+   <script type="text/javascript">
+
+     function usuarioSeleccionado(usuario) {        
+        console.log(usuario.nombre);
+        console.log(usuario.apellido);
+        console.log(usuario.imagen);
+
+        $('#logoInicio').hide(); //oculto el logo        
+        document.getElementById("imagenUsuarioSeleccionado").src = usuario.imagen;
+        $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuario.nombre+' '+usuario.apellido);
+
+        $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
+        $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
+
+      }
+     
+   </script>
+
+  </body>
+</html>
