@@ -30,7 +30,7 @@ main {
   width: 90%;
 
   position: fixed;
-  height: 68%;
+  height: 65%;
   z-index: 999;
   overflow-y: scroll;
   will-change: transform;

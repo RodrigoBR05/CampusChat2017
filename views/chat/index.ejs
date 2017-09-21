@@ -119,7 +119,7 @@
                 <label for="mensaje" data-error="No se pueden enviar mensajes en blanco">Escribe un mensaje aquí</label>
               </div>
               <div class="input-field col s1">
-                <button id="enviarMensajeButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
+                <button type="button" id="enviarMensajeButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
               </div>
             </div>
           </form>
@@ -151,6 +151,8 @@
      var enviarMensajeButton = document.querySelector('#enviarMensajeButton');
      //Cuerpo del mensaje
      var mensaje = document.querySelector('#mensaje');
+     var listaMensajes = document.querySelector('#chatList');
+
 
      //console.log(transmisor);
 
@@ -159,7 +161,7 @@
         //Agrega mensajes a una lista
         
         if (transmitter.id == transmisor) {
-          chatList.innerHTML =  '<div class="col s12">'+
+          listaMensajes.innerHTML =   listaMensajes.innerHTML+'<div class="col s12">'+
                                 '<div class="col s6">'+              
                                   '<div class="left">'+
                                     '<div class="valign-wrapper">'+
@@ -170,9 +172,10 @@
                                     '<br>'+            
                                   '</div>'+        
                                 '</div>'+
-                              '</div>'+ chatList.innerHTML;    
+                              '</div>';  
+
         }else{
-          chatList.innerHTML = '<div class="right col s12">'+
+          listaMensajes.innerHTML = listaMensajes.innerHTML+'<div class="right col s12">'+
                                   '<div class="col s6 offset-s6">' +
                                     '<div class="right">'+
                                       '<div class="valign-wrapper">'+
@@ -182,8 +185,12 @@
                                       '<br>'+            
                                     '</div>'+
                                   '</div>'+        
-                                '</div>'+ chatList.innerHTML;          
+                                '</div>';          
         }
+
+        // cuando exista un nuevo mensaje
+        $("#chatBody").animate({scrollTop: $(this).height()+100000}, 'fast');
+        return false;
  
       }
 
