@@ -75,7 +75,7 @@
         <!--Listado de usuarios asociados al usuario autenticado-->
         <% _.each(rawResult, function(user) {%>
            <li>
-              <a href="#" onclick="usuarioSeleccionado({'nombre':'<%= user.nombreCompaniero %>', 'apellido': '<%= user.apellido1Companiero %>','imagen':'<%= user.imagen %>'})">
+              <a href="#" onclick="usuarioSeleccionado({'nombre':'<%= user.nombreCompaniero %>', 'apellido': '<%= user.apellido1Companiero %>','imagen':'<%= user.imagen %>','idReceptor':'<%= user.idCompaniero %>' })">
                 <div class="valign-wrapper">
                     <img src="<%= user.imagen %>" alt="" class="circle responsive-img" width="50" height="50"> 
                     <span class="black-text">
@@ -99,95 +99,199 @@
           <img class="responsive-img" width="650" src="/images/logo2.png">                    
         </div>
 
-        <!--Contenedor de mensajes -->
-        <div class="row contenedorChat">
+        <!--Contenedor de mensajes -->    
+        <div id="chatList" class="row contenedorChat" style="display:none">
 
-        <!--
-          <div class="col s12">
-            <div class="col s6">
-              <div class="valign-wrapper">
-                  <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
-                  <span class="black-text">
-                    Buenos días, Sr.Heiner Jiménez.
-                  </span>
-              </div>
-              <br>               
-            </div>            
-          </div>
+          <div class="container">
+            <!--Mensajes de emisor -->    
 
-          <div class="col s12">
-            <div class="col s6">
-              <div class="valign-wrapper">
-                  <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
-                  <span class="black-text">
-                    ¿Cómo se encuentra?
-                  </span>
-              </div>
-              <br>               
-            </div>            
-          </div>
-
-          <div class="col s12">
-            <div class="col s6 offset-s6">
-              <div class="valign-wrapper">
-                  <span class="black-text">
-                    Buenos días, Kendall Doe.
-                    Muy bien y usted?
-                  </span>
-                  <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
-
-              </div>
-              <br>               
-            </div>            
-          </div>
-
-          <div class="col s12">
-            <div class="col s6">
-              <div class="valign-wrapper">
-                  <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
-                  <span class="black-text">
-                    Muy bien, quería consultarle algunas cosas sobre la tarea de los chicos.
-                  </span>
-              </div>
-              <br>               
-            </div>            
-          </div>
-
-          <div class="col s12">
-            <div class="col s6 offset-s6">
-              <div class="valign-wrapper">
-                  <span class="black-text">
-                    Por supuesto, si puedo ayudarle con mucho gusto.
-                  </span>
-                  <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
-
-              </div>
-              <br>               
+            <div class="col s12">
+              <div class="left">
+                <div class="valign-wrapper">
+                    <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                    <span class="black-text">
+                      Buenos días, Sr.Heiner Jiménez.
+                    </span>
+                </div>
+                <br>               
+              </div>            
             </div>
-         
-        </div>   
 
-        -->  
-        
+            <div class="right col s12">
+              <div class="right">
+                <div class="valign-wrapper">
+                    <span class="black-text">
+                      Buenos días, Kendall Doe.
+                      Muy bien y usted?
+                    </span>
+                    <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
+
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+
+            <div class="col s12">
+              <div class="left">
+                <div class="valign-wrapper">
+                    <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                    <span class="black-text">
+                      Buenos días, Sr.Heiner Jiménez.
+                    </span>
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+            <div class="right col s12">
+              <div class="right">
+                <div class="valign-wrapper">
+                    <span class="black-text">
+                      Buenos días, Kendall Doe.
+                      Muy bien y usted?
+                    </span>
+                    <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
+
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+
+            <div class="col s12">
+              <div class="left">
+                <div class="valign-wrapper">
+                    <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                    <span class="black-text">
+                      Buenos días, Sr.Heiner Jiménez.
+                    </span>
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+            <div class="right col s12">
+              <div class="right">
+                <div class="valign-wrapper">
+                    <span class="black-text">
+                      Buenos días, Kendall Doe.
+                      Muy bien y usted?
+                    </span>
+                    <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
+
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+
+            <div class="col s12">
+              <div class="left">
+                <div class="valign-wrapper">
+                    <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                    <span class="black-text">
+                      Buenos días, Sr.Heiner Jiménez.
+                    </span>
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+            <div class="right col s12">
+              <div class="right">
+                <div class="valign-wrapper">
+                    <span class="black-text">
+                      Buenos días, Kendall Doe.
+                      Muy bien y usted?
+                    </span>
+                    <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
+
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+
+            <div class="col s12">
+              <div class="left">
+                <div class="valign-wrapper">
+                    <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                    <span class="black-text">
+                      Buenos días, Sr.Heiner Jiménez.
+                    </span>
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+            <div class="right col s12">
+              <div class="right">
+                <div class="valign-wrapper">
+                    <span class="black-text">
+                      Buenos días, Kendall Doe.
+                      Muy bien y usted?
+                    </span>
+                    <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
+
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+            
+            <div class="col s12">
+              <div class="left">
+                <div class="valign-wrapper">
+                    <img src="/images/man.png" alt="" class="circle responsive-img" width="50" height="50">
+                    <span class="black-text">
+                      Buenos días, Sr.Heiner Jiménez.
+                    </span>
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+            <div class="right col s12">
+              <div class="right">
+                <div class="valign-wrapper">
+                    <span class="black-text">
+                      Buenos días, Kendall Doe.
+                      Muy bien y usted?
+                    </span>
+                    <img src="/images/person1.jpg" alt="" class="circle responsive-img" width="50" height="50">
+
+                </div>
+                <br>               
+              </div>            
+            </div>
+
+
+          </div>
     </div>
 
     </main>
 
     <footer>
-      <div class="row" id="footer" style="display:none">
-        <form class="col s12 " onsubmit="return false;">
-          <div class="row">
-            <div class="input-field col s11">
-              <i class="material-icons prefix">message</i>
-              <textarea  id="mensaje" name="mensaje" class="materialize-textarea validate" required></textarea>
-              <label for="mensaje" data-error="No se pueden enviar mensajes en blanco" data-success="Válido">Escribe un mensaje aquí</label>
+
+      <div class="container">        
+        <div class="row" id="footer" style="display:none">
+          <form class="col s12 " onsubmit="return false;">
+            <div class="row">
+              <div class="input-field col s11">
+                <i class="material-icons prefix">message</i>
+                <textarea  id="mensaje" name="mensaje" class="materialize-textarea validate" required></textarea>
+                <label for="mensaje" data-error="No se pueden enviar mensajes en blanco">Escribe un mensaje aquí</label>
+              </div>
+              <div class="input-field col s1">
+                <button id="enviarMensajeButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
+              </div>
             </div>
-            <div class="input-field col s1">
-              <button id="button" class="btn-floating btn-large waves-effect waves-light red" onclick=""><i class="material-icons colorCampusChat">send</i></button>
-            </div>
-          </div>
-        </form>
-      </div>      
+          </form>
+        </div>   
+
+      </div>
+
     </footer>
 
    <!--SCRIPTS-->
@@ -198,12 +302,44 @@
    <!--SCRIPTS END-->
 
 
-   <script type="text/javascript">
+   <script>
+     //Variables
+
+     //Usuarios
+     var transmisor = '<%= session.user.id  %>';
+     var receptor;
+     var grupo;
+
+     //Petición para mensajes
+     var peticion = '/mensajes/mensajes';
+     
+     //Botones
+     var enviarMensajeButton = document.querySelector('#enviarMensajeButton');
+     //Cuerpo del mensaje
+     var mensaje = document.querySelector('#mensaje');
+
+     //console.log(transmisor);
+
+
+     function addMessage(transmitter, receiver, message) { 
+      //Agrega mensajes a una lista
+
+        //console.log(transmitter);
+        //console.log(receiver);
+        //console.log(message);
+        if (transmitter.id == transmisor) {
+          mensajes.innerHTML = '<li><B>' + transmitter.name +'</B>' + ' dice: <br/>'+ message  + '</li>' + mensajes.innerHTML;
+        } else{
+          mensajes.innerHTML = '<li><B>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp' + transmitter.name +'</B>' + ' dice: <br/>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp'+ message  + '</li>' + mensajes.innerHTML;          
+        }
+ 
+      }
 
      function usuarioSeleccionado(usuario) {        
-        console.log(usuario.nombre);
-        console.log(usuario.apellido);
-        console.log(usuario.imagen);
+        //Obtener el usuario o grupo seleccionado
+
+        //Usuario o grupo receptor
+        receptor = usuario.idReceptor;
 
         $('#logoInicio').hide(); //oculto el logo        
         document.getElementById("imagenUsuarioSeleccionado").src = usuario.imagen;
@@ -211,8 +347,68 @@
 
         $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
         $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
+        $('#chatList').show(); //muestro la listas de mensajes
+        
+
+        //Obtener los mensajes del usuario seleccionado
+        io.socket.get(peticion,{ transmitter:transmisor, receiver:receptor, group : grupo},function(data, response) {
+          console.log(data);
+
+          /*
+          data.forEach(function(value) { 
+            //variables para el formato del mensaje
+            var transmitter;
+            var receiver;
+            var message;
+            
+            if (group){
+              transmitter = value.transmitter;
+              receiver = value.receiver;
+              message = value.content;
+            }else if (value.transmitter.id == transmisor) {
+              transmitter = value.transmitter;
+              receiver = value.receiver;
+              message = value.content;
+            }else if(value.receiver.id == transmisor){
+              transmitter = value.transmitter;
+              receiver = value.receiver;
+              message = value.content;
+            }        
+            
+            addMessage(transmitter, receiver, message);
+          }
+
+          );
+
+          */
+
+          io.socket.on('new_message', function(broadcastedData){  
+            console.log(broadcastedData);
+            //addMessage(broadcastedData.transmitter, broadcastedData.receiver, broadcastedData.content);
+          }); 
+
+        });
 
       }
+
+
+
+
+     enviarMensajeButton.addEventListener('click', function(e){
+        //Verificar que existan datos en el formulario del mensaje
+        if (mensaje.value) {
+          var data = {
+            contenido: mensaje.value,
+            id_transmisor: transmisor,
+            id_receptor: receptor,
+            id_grupo: grupo           
+          }
+          //Guardar los mensajes en la BD, persistencia
+          io.socket.post('/mensajes', data, function(data, response) {
+            mensaje.value = null;
+          });
+        }
+     });     
      
    </script>
 

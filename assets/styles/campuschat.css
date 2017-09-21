@@ -25,14 +25,30 @@ main {
 
 .contenedorChat
 {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+
   position: fixed;
   height: 68%;
   z-index: 999;
-  overflow-y: auto;
+  overflow-y: scroll;
   will-change: transform;
 
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+}
+
+@media only screen and (min-width: 601px) {
+  .contenedorChat {
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  .contenedorChat {
+    width: 77%;
+  }
 }
 
 .colorCampusChat {
