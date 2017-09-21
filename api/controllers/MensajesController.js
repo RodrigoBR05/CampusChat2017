@@ -12,10 +12,11 @@ module.exports = {
         var transmisor = req.param('id_transmisor');
         var receptor = req.param('id_receptor');
         var grupo = req.param('id_curso');
+        var room;
+
 
         //Crear el mensaje
         if (receptor) {        	
-        	var room;
         	if(transmisor < receptor){
         		room = 'campus_chat_user'+transmisor+'_user'+receptor;
         	}else{
@@ -29,8 +30,8 @@ module.exports = {
                     if (!message) {
                         return res.notFound('No se encontró el registro');
                     }
+                    sails.sockets.broadcast(room, 'new_message', message);                    
                     res.json(message);
-                    //sails.sockets.broadcast(roomName, 'new_message', message);
                 });      
             });
 
@@ -43,8 +44,8 @@ module.exports = {
                     if (!message) {
                         return res.notFound('No se encontró el registro');
                     }
+                    sails.sockets.broadcast(roomName, 'new_message', message);                    
                     res.json(message);
-                    //sails.sockets.broadcast(roomName, 'new_message', message);
                 });                
             });
         }
@@ -54,23 +55,30 @@ module.exports = {
         var transmisor = req.param('transmitter');
         var receptor = req.param('receiver');
         var grupo = req.param('group');
-        //var roomName = req.param('roomName');
+        var room;
+        
 
         //Subcribirse al socket
         if( ! req.isSocket) {
           return res.badRequest();
         }
 
-        //Suscripción al socket
-        sails.sockets.join(req.socket, 'roomName',function(err){
-            if (err) {
-                return res.serverError(err);
-            }
-            //console.log('Inscrito en la room'+roomName);
-        });
+        
         
         //Buscar la forma de integrar el grupo
         if (receptor) {
+            if(transmisor < receptor){
+                room = 'campus_chat_user'+transmisor+'_user'+receptor;
+            }else{
+                room = 'campus_chat_user'+receptor+'_user'+transmisor;
+            }
+            //Suscripción al socket
+            sails.sockets.join(req.socket, room,function(err){
+                if (err) {
+                    return res.serverError(err);
+                }
+                //console.log('Inscrito en la room'+roomName);
+            });
             //Recopilo los mensajes del usuario desde la relación User-Message
             Mensajes.find({
                 //Mensajes recibidos o enviados de o hacia el usuario actual
