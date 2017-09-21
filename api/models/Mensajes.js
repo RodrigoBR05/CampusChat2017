@@ -39,7 +39,16 @@ module.exports = {
 
   	nombre_chat: {
   		type: 'text'
-  	}
+  	}, 
+
+    fecha_envio:{
+      type: 'datetime',
+      defaultsTo: function() {
+        return new Date();
+      }
+
+
+    }
 
   }
 };
