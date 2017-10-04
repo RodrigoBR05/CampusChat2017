@@ -19,19 +19,18 @@
     <header>
       <nav class="top-nav colorCampusChat" id="nav" style="display:none">
           <div class="row">
-            <div class="valign-wrapper col s10">
-                <img id="imagenUsuarioSeleccionado" src="" alt="" class="circle responsive-img" width="50" height="50"> 
-                <span id="nombreUsuarioSeleccionado" class="white-text"></span>
-            </div>
+            <a class="modal-trigger" href="#archivos" title="Presiona para ver los archivos">
+              <div class="valign-wrapper col s10">
+                  <img id="imagenUsuarioSeleccionado" src="" alt="" class="circle responsive-img" width="50" height="50"> 
+                  <span id="nombreUsuarioSeleccionado" class="white-text"></span>
+              </div>
+            </a>
 
             <div class="input-field col s1">
               <div class="btn-floating btn-large waves-effect waves-light white file-field input-field">
                 <div>
                   <span><i class="material-icons colorCampusChat-text">image</i></span>
-                  <input type="file" accept="image/*">
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
+                  <input id="imagenAdjunta" type="file" accept="image/*">
                 </div>
               </div>
             </div>
@@ -40,14 +39,10 @@
               <div class="btn-floating btn-large waves-effect waves-light white file-field input-field">
                 <div>
                   <span><i class="material-icons colorCampusChat-text">attach_file</i></span>
-                  <input type="file" accept=".pdf,.doc,.docx,.odt" >
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
+                  <input id="archivoAdjunto" type="file" accept=".pdf,.doc,.docx,.odt" >
                 </div>
               </div>
-            </div>
-          
+            </div>          
       </nav>
 
       <ul id="slide-out" class="side-nav fixed">
@@ -55,40 +50,19 @@
         <li>
           <div class="user-view colorCampusChat">
             <img class="circle" src="<%= session.user.imagen  %>">
-            <a class="center"><span class="white-text name"><%= session.user.name  %> <%= session.user.last_name  %></span></a>
-            <a class="center"><span class="white-text email"><%= session.user.email  %></span></a>
+            <div class="row">
+              <div class="col s10">
+                <a class="center"><span class="white-text name"><%= session.user.name  %> <%= session.user.last_name  %></span></a>
+                <a class="center"><span class="white-text email"><%= session.user.email  %></span></a>
+              </div>
+              <div class="col s2">
+                <a href="#contactos" title="Nuevo chat" class="btn-floating btn-large waves-effect waves-light white modal-trigger"><i class="material-icons colorCampusChat-text">message</i></a>
+              </div>              
+            </div>
+            
           </div>
         </li>
 
-        <!--Buscador de usuarios disponibles-->
-        <li>
-          <div class="nav-wrapper ">
-            <form>
-              <div class="input-field">
-                <input id="search" type="search" placeholder="Buscar..." required>
-                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-              </div>
-            </form>
-          </div>
-        </li>  
-
-        <!--Listado de usuarios asociados al usuario autenticado-->
-        <% _.each(rawResult, function(user) {%>
-           <li>
-              <a href="#" onclick="usuarioSeleccionado({'nombre':'<%= user.nombreCompaniero %>', 'apellido': '<%= user.apellido1Companiero %>','imagen':'<%= user.imagen %>','idReceptor':'<%= user.idCompaniero %>' })">
-                <div class="valign-wrapper">
-                    <img src="<%= user.imagen %>" alt="" class="circle responsive-img" width="50" height="50"> 
-                    <span class="black-text">
-                      <%=user.nombreCompaniero%> <%=user.apellido1Companiero%> 
-                    </span>
-                </div>
-              </a>
-              <div class="divider"></div>
-              <div class="divider"></div>          
-
-            </li>  
-        <% })%>         
-        
       </ul>
       
     </header>
@@ -102,8 +76,144 @@
         <!--Contenedor de mensajes -->    
         <div id="chatBody" class="row contenedorChat" style="display:none">
 
-          <div class="container" id="chatList"> </div>
-    </div>
+          <div class="container"> 
+
+            <ul class="collection" id="chatList"> </ul>
+
+          </div>
+        </div>
+
+
+        <!-- Modal Structure -->
+        <div id="contactos" class="modal modal-fixed-footer">
+          <div class="modal-content">
+            <div class="row center">
+                <div class="col s12">
+                  <h4>Contactos</h4>                  
+                </div>
+              </div>
+              <ul class="collection">
+                <!--Listado de usuarios asociados al usuario autenticado-->
+                <% _.each(rawResult, function(user) {%>
+                      <li class="collection-item avatar">
+                        <a href="#" onclick="usuarioSeleccionado({'nombre':'<%= user.nombreCompaniero %>', 'apellido': '<%= user.apellido1Companiero %>','imagen':'<%= user.imagen %>','idReceptor':'<%= user.idCompaniero %>' })">
+                          <img src="<%= user.imagen %>" alt="" class="circle responsive-img" width="50" height="50">
+                          <span class="title black-text">Estudiante</span>
+                          <p class="black-text"><%=user.nombreCompaniero%> <%=user.apellido1Companiero%></p>
+                          <a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>
+                        </a>
+                      </li>        
+                <% })%> 
+              </ul>
+          </div>
+        </div>
+
+    
+
+        <!-- Estructura del modal de archivos del usuario-->
+         <div id="archivos" class="modal bottom-sheet">
+            <div class="modal-content">
+              <div class="row center">
+                <div class="col s12">
+                  <h4>Multimedia y documentos</h4>                  
+                </div>
+              </div>
+              <div class="container">                
+              
+                <div class="row">
+                  <div class="col s12" style="overflow-y: hidden;">
+                    <ul class="tabs">
+                      <li class="tab col s5 offset-s1"><a class="active" href="#multimedia">Multimedia</a></li>
+                      <li class="tab col s5"><a href="#documentos">Documentos</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                
+                  <div id="multimedia" class="row">
+                    <div class="col s2">
+                      <img src="/images/natu1.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu2.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu3.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu4.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu5.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu6.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu7.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu8.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu1.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu2.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu3.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu4.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu5.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu6.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu7.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/natu8.jpg" alt="" class="responsive-img">
+                    </div>
+                  </div>
+
+                  <div id="documentos" class="row">
+                    <div class="col s2">
+                      <img src="/images/docx.png" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/pdf.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/xls.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/docx.png" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/pdf.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/xls.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/docx.png" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/pdf.jpg" alt="" class="responsive-img">
+                    </div>
+                    <div class="col s2">
+                      <img src="/images/xls.jpg" alt="" class="responsive-img">
+                    </div>
+                    
+                  </div>
+              </div>
+            </div>
+          </div>
 
     </main>
 
@@ -115,11 +225,11 @@
             <div class="row">
               <div class="input-field col s11">
                 <i class="material-icons prefix">message</i>
-                <textarea  id="mensaje" name="mensaje" class="materialize-textarea validate" required></textarea>
+                <textarea  id="mensaje" name="mensaje" class="materialize-textarea"></textarea>
                 <label for="mensaje" data-error="No se pueden enviar mensajes en blanco">Escribe un mensaje aquí</label>
               </div>
               <div class="input-field col s1">
-                <button type="button" id="enviarMensajeButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
+                <button id="enviarMensajeButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
               </div>
             </div>
           </form>
@@ -135,6 +245,12 @@
    <script src="/js/materialize.min.js"></script>
    <!--SCRIPTS END-->
 
+   <!--Inicio de los elementos-->
+   <script type="text/javascript">
+     $( document ).ready(function(){
+       $('.modal').modal();
+     });
+   </script>
 
    <script>
      //Variables
@@ -143,50 +259,21 @@
      var transmisor = '<%= session.user.id  %>';
      var receptor;
      var grupo;
-
      //Petición para mensajes
-     var peticion = '/mensajes/mensajes';
-     
+     var peticion = '/mensajes/mensajes';          
      //Botones
-     var enviarMensajeButton = document.querySelector('#enviarMensajeButton');
+     var enviarMensajeButton = document.querySelector('#enviarMensajeButton');     
      //Cuerpo del mensaje
      var mensaje = document.querySelector('#mensaje');
      var listaMensajes = document.querySelector('#chatList');
 
-
-     //console.log(transmisor);
-
-
-     function addMessage(transmitter, receiver, message) { 
-        //Agrega mensajes a una lista
-        
-        if (transmitter.id == transmisor) {
-          listaMensajes.innerHTML =   listaMensajes.innerHTML+'<div class="col s12">'+
-                                      '<div class="col s6">'+              
-                                        '<div class="left">'+
-                                          '<div class="valign-wrapper">'+
-                                              '<img src="'+transmitter.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                              '<span class="black-text">'+message+
-                                              '</span>'+
-                                          '</div>'+
-                                          '<br>'+            
-                                        '</div>'+        
-                                      '</div>'+
-                                    '</div>';
-
-        }else{
-          listaMensajes.innerHTML = listaMensajes.innerHTML+'<div class="right col s12">'+
-                                  '<div class="col s6 offset-s6">' +
-                                    '<div class="right">'+
-                                      '<div class="valign-wrapper">'+
-                                          '<span class="black-text">'+message+'</span>'+
-                                          '<img src="'+transmitter.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                      '</div>'+
-                                      '<br>'+            
-                                    '</div>'+
-                                  '</div>'+        
-                                '</div>';          
-        }
+     function addMessage(transmitter, message, fechaEnvio) { 
+          listaMensajes.innerHTML =   listaMensajes.innerHTML+
+                                        '<li class="collection-item valign-wrapper">'+
+                                          '<img title="'+transmitter.name+' '+transmitter.last_name+' '+transmitter.last_name2+'"src="'+transmitter.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                          '<p title="'+fechaEnvio+'">'+message+'<br>'+
+                                          '</p>'
+                                        '</li>';
 
         // cuando exista un nuevo mensaje
         $("#chatBody").animate({scrollTop: $(this).height()+100000}, 'fast');
@@ -194,16 +281,43 @@
  
       }
 
-     function usuarioSeleccionado(usuario) {        
-        //Obtener el usuario o grupo seleccionado
 
+     function usuarioSeleccionado(usuario) { 
         //Usuario o grupo receptor
-        receptor = usuario.idReceptor;
+        receptor = usuario.idReceptor; 
+        //Se cierra el modal de los contactos del usuario
+        $('#contactos').modal('close');      
+        //Obtener el usuario o grupo seleccionado
+        var element = document.getElementById("chatList");
+        element.innerHTML = '';  
+
+        //Actualizar el chat list de acuerdo al usuario seleccionado
+        var data2 = { email : 'rodri.bre05@gmail.com', password : 'Secreto' };
+        $.ajax({
+                url : '/mensajes/chatList',
+                data : data2, 
+                method : 'post', //en este caso
+                dataType : 'json',
+                success : function(response){
+                  console.log(response);
+                       //codigo de exito
+                },
+                error: function(error){
+                  console.log('No funciona');
+                }
+        });  
+
+        //Llenar el chat list
+        var ul = document.getElementById("slide-out");
+        var li = document.createElement("li");
+        var children = ul.children.length + 1;
+        li.setAttribute("id", "element"+children);
+        li.appendChild(document.createTextNode("Element "+children));
+        ul.appendChild(li);
 
         $('#logoInicio').hide(); //oculto el logo        
         document.getElementById("imagenUsuarioSeleccionado").src = usuario.imagen;
         $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuario.nombre+' '+usuario.apellido);
-
         $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
         $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
         $('#chatBody').show(); //muestro la listas de mensajes
@@ -218,45 +332,73 @@
             var transmitter;
             var receiver;
             var message;
+            var fechaEnvio;
+
+            //console.log(value);
 
             if (value.id_transmisor.id == transmisor) {
               transmitter = value.id_transmisor;
               receiver = value.id_receptor;
               message = value.contenido;
+              fechaEnvio = value.fecha_envio;
             }else if(value.id_receptor.id == transmisor){
               transmitter = value.id_transmisor;
               receiver = value.id_receptor;
               message = value.contenido;
+              fechaEnvio = value.fecha_envio;
             }        
-            addMessage(transmitter, receiver, message);
+
+            addMessage(transmitter, message, formatoFechaMensajes(fechaEnvio));
 
           }
 
           );
-
-          io.socket.on('new_message', function(broadcastedData){  
-            //console.log(broadcastedData);
-            addMessage(broadcastedData.id_transmisor, broadcastedData.id_receptor, broadcastedData.contenido);
-          }); 
-
         });
 
-      }
+      }//usuario seleccionado
+
+
+      io.socket.on('new_message', function(broadcastedData){  
+        //console.log(broadcastedData);
+        //console.log(receptor);
+        if ((receptor == broadcastedData.id_receptor.id) || (receptor == broadcastedData.id_transmisor.id)) {
+          addMessage(broadcastedData.id_transmisor, broadcastedData.contenido, formatoFechaMensajes(broadcastedData.fecha_envio));  
+        }
+             
+      }); 
+
+
+     function formatoFechaMensajes(fecha){
+        //Formato de las fechas
+        var anio = fecha.substring(0,4);
+        var mes = fecha.substring(5,7);
+        var dia = fecha.substring(8,10);
+        var hora = fecha.substring(11,19);
+        var formatFecha = dia+'-'+mes+'-'+anio+' Hora: '+ hora;
+        return formatFecha;
+     } 
 
 
      enviarMensajeButton.addEventListener('click', function(e){
-        //Verificar que existan datos en el formulario del mensaje
-        if (mensaje.value) {
+        //Verificar que exista archivos adjuntos o texto adjunto
+        var imagenAdjunta = document.getElementById('imagenAdjunta').files.length;        
+        if (mensaje.value || (imagenAdjunta == 1)) {
+          //imagenAdjunta = document.getElementById('imagenAdjunta').files[0];
+          //console.log(imagenAdjunta);
           var data = {
             contenido: mensaje.value,
             id_transmisor: transmisor,
             id_receptor: receptor,
-            id_grupo: grupo           
+            id_grupo: grupo,
+            //adjunto: imagenAdjunta
           }
+
           //Guardar los mensajes en la BD, persistencia
           io.socket.post('/mensajes', data, function(data, response) {
             mensaje.value = null;
+            //$('#imagenAdjunta').val(null);
           });
+
         }
      });     
      

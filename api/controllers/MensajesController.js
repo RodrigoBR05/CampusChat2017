@@ -8,11 +8,29 @@
 module.exports = {
 
 	create:function(req,res){
+
+
         var mensaje = req.param('contenido');
         var transmisor = req.param('id_transmisor');
         var receptor = req.param('id_receptor');
         var grupo = req.param('id_curso');
         var room;
+        //var adjunto = req.file('adjunto');
+
+        console.log(req);
+
+        /*
+        //La carga de archivos funciona utilizando POSMAN, analizar la forma de carga file en javascript
+        req.file('adjunto').upload({
+          dirname: require('path').resolve(sails.config.appPath, 'assets/images')
+        },function (err, uploadedFiles) {
+          if (err) return res.negotiate(err);
+          //return res.json({
+            //message: uploadedFiles.length + ' file(s) uploaded successfully!'
+          //});
+        });
+        */
+
 
 
         //Crear el mensaje
@@ -61,9 +79,7 @@ module.exports = {
         //Subcribirse al socket
         if( ! req.isSocket) {
           return res.badRequest();
-        }
-
-        
+        }        
         
         //Buscar la forma de integrar el grupo
         if (receptor) {
@@ -114,6 +130,12 @@ module.exports = {
             });  
         }
 
+    },
+
+
+    chatList:function(req,res){ 
+        console.log(req.param('email'));
+        return res.json('Existe, Campus Chat');
     }
 	
 };

@@ -58,3 +58,14 @@ main {
 .colorCampusChat-text {
   color: #C84A2B !important;
 }
+
+
+.leftCampus{
+    float: left;
+    background:blue
+}
+
+.rightCampus{
+    float: right;
+    background:red
+}
