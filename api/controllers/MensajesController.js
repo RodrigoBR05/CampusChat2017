@@ -134,8 +134,8 @@ module.exports = {
 
 
     chatList:function(req,res){ 
-        console.log(req.param('email'));
-        return res.json('Existe, Campus Chat');
+        console.log('Estoy en la lista de chats');
+        //return res.json('Existe, Campus Chat');
     }
 	
 };

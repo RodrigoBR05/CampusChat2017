@@ -32,8 +32,17 @@ module.exports = {
   		type: 'integer'
   	},
     //El curso tiene muchos mensajes
+    /*
     mensajes:{
       collection:'mensajes',
+      via: 'id_curso'
+    },
+    */
+
+    //El curso tiene muchos mensajes
+    //Chats
+    chat:{
+      collection: 'chats',
       via: 'id_curso'
     }
 

@@ -37,11 +37,12 @@ module.exports.routes = {
   },
 
   /* No usar un ruta para poder manejarlo desde el controlador
-  */
   
   '/chat/prueba': {
     view: 'chat/prueba'
   }
+  */
+  
 
   /***************************************************************************
   *                                                                          *

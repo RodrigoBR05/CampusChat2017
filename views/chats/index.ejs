@@ -94,12 +94,23 @@
               </div>
               <ul class="collection">
                 <!--Listado de usuarios asociados al usuario autenticado-->
-                <% _.each(rawResult, function(user) {%>
+                <% _.each(companieros, function(user) {%>
                       <li class="collection-item avatar">
                         <a href="#" onclick="usuarioSeleccionado({'nombre':'<%= user.nombreCompaniero %>', 'apellido': '<%= user.apellido1Companiero %>','imagen':'<%= user.imagen %>','idReceptor':'<%= user.idCompaniero %>' })">
                           <img src="<%= user.imagen %>" alt="" class="circle responsive-img" width="50" height="50">
                           <span class="title black-text">Estudiante</span>
                           <p class="black-text"><%=user.nombreCompaniero%> <%=user.apellido1Companiero%></p>
+                          <a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>
+                        </a>
+                      </li>        
+                <% })%> 
+                <!--Listado de curso asociados al usuario autenticado-->
+                <% _.each(cursos, function(curso) {%>
+                      <li class="collection-item avatar">
+                        <a href="#" onclick="cursoSeleccionado('<%= curso %>')">
+                          <img src="/images/curso.png" alt="" class="circle responsive-img" width="50" height="50">
+                          <span class="title black-text">Curso</span>
+                          <p class="black-text"><%= curso.nombreClase %></p>
                           <a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>
                         </a>
                       </li>        
@@ -281,6 +292,10 @@
  
       }
 
+      function cursoSeleccionado(curso) { 
+        console.log(curso.nombreClase);
+      }
+
 
      function usuarioSeleccionado(usuario) { 
         //Usuario o grupo receptor
@@ -366,6 +381,14 @@
         }
              
       }); 
+
+      io.socket.get('/chats/',function(data, response) {
+        //Obtener todo lo relacionado con el usuario, contactos, grupos, chats.
+
+        //console.log(data);
+                 
+
+      });
 
 
      function formatoFechaMensajes(fecha){

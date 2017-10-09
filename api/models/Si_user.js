@@ -80,6 +80,16 @@ module.exports = {
     receivedMessages:{
       collection: 'mensajes',
       via: 'id_receptor'
+    },
+    //Chats
+    sentChat:{
+      collection:'chats',
+      via: 'id_transmisor'
+    },
+    //Chats
+    receivedChat:{
+      collection: 'chats',
+      via: 'id_receptor'
     }
 
   }

@@ -48,7 +48,7 @@ module.exports = {
 				//Hacer la sesión global
 				req.session.authenticated = true;
 				req.session.user = user;
-				res.redirect('/chat/index');
+				res.redirect('/chats/');
 			}
 				
 		});
