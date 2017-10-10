@@ -7,7 +7,11 @@
 
 module.exports = {
 
-	 index: function(req, res, next){
+	  index: function(req, res, next){
+	  	res.view();
+	  },
+
+	  chatsindex: function(req, res, next){
 	  	//sails.log('Estoy en el index');
 	  	var usuarioActual = req.session.user;
 	  	//console.log(usuarioActual);
@@ -19,6 +23,8 @@ module.exports = {
 	        -->3-profesor
 	        -->5-encargado del estudiante
 	    */
+
+	    var socketId = sails.sockets.getId(req);
 
 	  	var queryCompanieros = 'SELECT '
 				                      +' s2.id idCompaniero, s2.name nombreCompaniero, s2.last_name apellido1Companiero,'
@@ -81,6 +87,11 @@ module.exports = {
 							+' c.id_transmisor = ?'
 							+' OR c.id_receptor = ?';
 
+		//Debe existir socket
+        if( ! req.isSocket) {
+          return res.badRequest();
+        } 
+
 
 	    if (usuarioActual.rol === 1) {
 	      /*Si es estudiante muestra a los compañeros, profesores y grupos*/
@@ -93,14 +104,7 @@ module.exports = {
 	          //Cursos
 	          if (err) { return res.serverError(err); }
 
-	          //Obtengo los chats de los cursos actuales del estudiante
-	          /*	
-	          var consultaQuery = "";
-	          for(let cursoActual of cursosResult){
-	          	consultaQuery = consultaQuery+"OR c.id_curso = "+cursoActual.idCurso+" ";
-	          }  		
-	          console.log(consultaQuery);
-	          */
+	          //Obtengo los chats de los cursos actuales del estudiante	          
 
 	          //Recopilo los chat individuales del usuario
 	            Chats.find({
@@ -117,14 +121,24 @@ module.exports = {
 	                return res.notFound('No existen registros de chats.');
 	              }
 
-	              //sails.log('Registro encontrado:', chats);
-	              //return res.json(messages);
+	              //Unir los sockets a sus respectivos chats
+	              for(chatActual of chats){
+	              	console.log(socketId);
 
-		            //Datos a la vista
-		            res.view({
-		              companieros : companierosResult,
-		              cursos : cursosResult
+	              	//Suscripción al socket
+		            sails.sockets.join(socketId, chatActual.nombre_chat,function(err){
+		                if (err) {
+		                    return res.serverError(err);
+		                }
+		                console.log('Inscrito en la room'+chatActual.nombre_chat);
 		            });
+	              }
+
+	              res.json({
+				              companieros : companierosResult,
+				              cursos : cursosResult,
+				              chatsIndividuales : chats
+				            });
 
 		      });
 
@@ -134,7 +148,94 @@ module.exports = {
 	      
 	    }
 
-	  }
+	  },
+	  create:function(req, res){
+	  	//Crear los chats individuales o grupales
+
+		// Pruebas para recibir parametros
+		var transmisor = req.param('id_transmisor');
+		var receptor = req.param('id_receptor');
+		var grupo = req.param('id_curso');
+		var fechaActualizacion = new Date();
+		var nombreChat;
+
+		if (receptor) {
+
+			Chats.findOne({
+	            //Chats
+	            or: [
+	                { id_transmisor:transmisor, id_receptor:receptor},
+                    { id_transmisor:receptor, id_receptor:transmisor}
+	            ]
+	        }).exec(function (err, chat){
+	          if (err) {
+	            return res.serverError(err);
+	          }
+	          if (!chat) {
+
+	          	if(transmisor < receptor){
+	        		nombreChat = 'campus_chat_user'+transmisor+'_user'+receptor;
+	        	}else{
+	        		nombreChat = 'campus_chat_user'+receptor+'_user'+transmisor;
+	        	}
+
+	          	//Crear el chat
+	          	var chatObj ={
+					id_transmisor : transmisor,
+					id_receptor : receptor,
+					id_curso : grupo,
+					nombre_chat : nombreChat,
+					fecha_actualizacion : fechaActualizacion				
+				}
+
+				//Creamos el chat
+				Chats.create(chatObj, function(err, chat){			
+					if (err) {
+	            		return res.serverError(err);
+					}
+	          		return res.json(chat);
+						
+				})
+	          }else{
+	          	return res.json({existe: true});
+	          }
+	        });
+
+		}else if (grupo) {
+
+		}
+      },
+
+      listchats: function(req, res, next){
+      	console.log(req);
+      	//Recopilo los chat individuales del usuario
+      	/*
+        Chats.find({
+            //Chats del usuario actual
+            or: [
+                { id_transmisor:usuarioActual.id},
+                { id_receptor:usuarioActual.id}
+            ]
+        ,sort: 'fecha_actualizacion DESC'}).populate('id_receptor').populate('id_transmisor').populate('messages').exec(function (err, chats){
+          if (err) {
+            return res.serverError(err);
+          }
+          if (!chats) {
+            return res.notFound('No existen registros de chats.');
+          }
+
+          //sails.log('Registro encontrado:', chats);
+          //return res.json(messages);
+
+            //Datos a la vista
+            res.view({
+              companieros : companierosResult,
+              cursos : cursosResult
+            });
+
+        });
+        */
+	 }      
 	
 };
 

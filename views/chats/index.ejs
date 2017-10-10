@@ -17,32 +17,33 @@
   <body>    
     
     <header>
+    
       <nav class="top-nav colorCampusChat" id="nav" style="display:none">
-          <div class="row">
-            <a class="modal-trigger" href="#archivos" title="Presiona para ver los archivos">
-              <div class="valign-wrapper col s10">
-                  <img id="imagenUsuarioSeleccionado" src="" alt="" class="circle responsive-img" width="50" height="50"> 
-                  <span id="nombreUsuarioSeleccionado" class="white-text"></span>
-              </div>
-            </a>
+        <div class="row">
+          <a class="modal-trigger" href="#archivos" title="Presiona para ver los archivos">
+            <div class="valign-wrapper col s10">
+                <img id="imagenUsuarioSeleccionado" src="" alt="" class="circle responsive-img" width="50" height="50"> 
+                <span id="nombreUsuarioSeleccionado" class="white-text"></span>
+            </div>
+          </a>
 
-            <div class="input-field col s1">
-              <div class="btn-floating btn-large waves-effect waves-light white file-field input-field">
-                <div>
-                  <span><i class="material-icons colorCampusChat-text">image</i></span>
-                  <input id="imagenAdjunta" type="file" accept="image/*">
-                </div>
+          <div class="input-field col s1">
+            <div class="btn-floating btn-large waves-effect waves-light white file-field input-field">
+              <div>
+                <span><i class="material-icons colorCampusChat-text">image</i></span>
+                <input id="imagenAdjunta" type="file" accept="image/*">
               </div>
             </div>
+          </div>
 
-            <div class="input-field col s1">
-              <div class="btn-floating btn-large waves-effect waves-light white file-field input-field">
-                <div>
-                  <span><i class="material-icons colorCampusChat-text">attach_file</i></span>
-                  <input id="archivoAdjunto" type="file" accept=".pdf,.doc,.docx,.odt" >
-                </div>
+          <div class="input-field col s1">
+            <div class="btn-floating btn-large waves-effect waves-light white file-field input-field">
+              <div>
+                <span><i class="material-icons colorCampusChat-text">attach_file</i></span>
+                <input id="archivoAdjunto" type="file" accept=".pdf,.doc,.docx,.odt" >
               </div>
-            </div>          
+            </div>
+          </div>          
       </nav>
 
       <ul id="slide-out" class="side-nav fixed">
@@ -92,29 +93,8 @@
                   <h4>Contactos</h4>                  
                 </div>
               </div>
-              <ul class="collection">
-                <!--Listado de usuarios asociados al usuario autenticado-->
-                <% _.each(companieros, function(user) {%>
-                      <li class="collection-item avatar">
-                        <a href="#" onclick="usuarioSeleccionado({'nombre':'<%= user.nombreCompaniero %>', 'apellido': '<%= user.apellido1Companiero %>','imagen':'<%= user.imagen %>','idReceptor':'<%= user.idCompaniero %>' })">
-                          <img src="<%= user.imagen %>" alt="" class="circle responsive-img" width="50" height="50">
-                          <span class="title black-text">Estudiante</span>
-                          <p class="black-text"><%=user.nombreCompaniero%> <%=user.apellido1Companiero%></p>
-                          <a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>
-                        </a>
-                      </li>        
-                <% })%> 
-                <!--Listado de curso asociados al usuario autenticado-->
-                <% _.each(cursos, function(curso) {%>
-                      <li class="collection-item avatar">
-                        <a href="#" onclick="cursoSeleccionado('<%= curso %>')">
-                          <img src="/images/curso.png" alt="" class="circle responsive-img" width="50" height="50">
-                          <span class="title black-text">Curso</span>
-                          <p class="black-text"><%= curso.nombreClase %></p>
-                          <a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>
-                        </a>
-                      </li>        
-                <% })%> 
+              <ul class="collection" id="contactosList">
+                
               </ul>
           </div>
         </div>
@@ -264,12 +244,16 @@
    </script>
 
    <script>
-     //Variables
-
+    
+     //Variables     
      //Usuarios
      var transmisor = '<%= session.user.id  %>';
      var receptor;
      var grupo;
+
+     var cursos;
+     var usuariosReceptores;
+     var chatsUsuario;
      //Petición para mensajes
      var peticion = '/mensajes/mensajes';          
      //Botones
@@ -277,8 +261,36 @@
      //Cuerpo del mensaje
      var mensaje = document.querySelector('#mensaje');
      var listaMensajes = document.querySelector('#chatList');
+     //Contactos
+     var contactosList = document.querySelector('#contactosList');
 
-     function addMessage(transmitter, message, fechaEnvio) { 
+
+     function addMensajes(data) {
+
+        var usuarioTransmisorChat = data.id_transmisor;
+        var usuarioReceptorChat =  data.id_receptor;
+
+        if (transmisor == usuarioTransmisorChat.id) {
+            document.getElementById("imagenUsuarioSeleccionado").src = usuarioReceptorChat.imagen;
+            $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuarioReceptorChat.name+' '+usuarioReceptorChat.last_name);
+        }else{
+            document.getElementById("imagenUsuarioSeleccionado").src = usuarioTransmisorChat.imagen;
+            $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuarioTransmisorChat.name+' '+usuarioTransmisorChat.last_name);
+        }
+
+        //console.log(usuarioTransmisorChat);
+        //console.log(usuarioReceptorChat);
+
+        for(mensajeActual of data.messages){
+          console.log(mensajeActual);
+        }
+
+        $('#logoInicio').hide(); //oculto el logo                
+        $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
+        $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
+        $('#chatBody').show(); //muestro la listas de mensajes
+
+        /*
           listaMensajes.innerHTML =   listaMensajes.innerHTML+
                                         '<li class="collection-item valign-wrapper">'+
                                           '<img title="'+transmitter.name+' '+transmitter.last_name+' '+transmitter.last_name2+'"src="'+transmitter.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
@@ -289,87 +301,54 @@
         // cuando exista un nuevo mensaje
         $("#chatBody").animate({scrollTop: $(this).height()+100000}, 'fast');
         return false;
+        */
  
       }
 
       function cursoSeleccionado(curso) { 
-        console.log(curso.nombreClase);
+        console.log(curso.idCurso);
       }
 
 
      function usuarioSeleccionado(usuario) { 
         //Usuario o grupo receptor
-        receptor = usuario.idReceptor; 
+        receptor = usuario.idCompaniero; 
         //Se cierra el modal de los contactos del usuario
-        $('#contactos').modal('close');      
-        //Obtener el usuario o grupo seleccionado
-        var element = document.getElementById("chatList");
-        element.innerHTML = '';  
+        $('#contactos').modal('close');  
+
+        console.log(receptor);
+
+      /*
 
         //Actualizar el chat list de acuerdo al usuario seleccionado
-        var data2 = { email : 'rodri.bre05@gmail.com', password : 'Secreto' };
+        var chat = { id_transmisor : transmisor, id_receptor : receptor };
         $.ajax({
-                url : '/mensajes/chatList',
-                data : data2, 
-                method : 'post', //en este caso
-                dataType : 'json',
-                success : function(response){
-                  console.log(response);
-                       //codigo de exito
-                },
-                error: function(error){
-                  console.log('No funciona');
-                }
-        });  
-
-        //Llenar el chat list
-        var ul = document.getElementById("slide-out");
-        var li = document.createElement("li");
-        var children = ul.children.length + 1;
-        li.setAttribute("id", "element"+children);
-        li.appendChild(document.createTextNode("Element "+children));
-        ul.appendChild(li);
-
-        $('#logoInicio').hide(); //oculto el logo        
-        document.getElementById("imagenUsuarioSeleccionado").src = usuario.imagen;
-        $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuario.nombre+' '+usuario.apellido);
-        $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
-        $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
-        $('#chatBody').show(); //muestro la listas de mensajes
-        
-
-        //Obtener los mensajes del usuario seleccionado
-        io.socket.get(peticion,{ transmitter:transmisor, receiver:receptor, group : grupo},function(data, response) {
-          //console.log(data);
-
-          data.forEach(function(value) { 
-            //variables para el formato del mensaje
-            var transmitter;
-            var receiver;
-            var message;
-            var fechaEnvio;
-
-            //console.log(value);
-
-            if (value.id_transmisor.id == transmisor) {
-              transmitter = value.id_transmisor;
-              receiver = value.id_receptor;
-              message = value.contenido;
-              fechaEnvio = value.fecha_envio;
-            }else if(value.id_receptor.id == transmisor){
-              transmitter = value.id_transmisor;
-              receiver = value.id_receptor;
-              message = value.contenido;
-              fechaEnvio = value.fecha_envio;
-            }        
-
-            addMessage(transmitter, message, formatoFechaMensajes(fechaEnvio));
-
+          url : '/chats/create/',
+          data : chat, 
+          method : 'post', //en este caso
+          dataType : 'json',
+          success : function(res){
+            if(res.existe){
+              //Debo mostrarlo de primero y si envía un mensaje actualizo la fecha
+              console.log("Sí existe el chat...!");
+            }else{
+              //Debo unirlo a la room con el otro usuario
+              console.log(res);
+            }
+          },
+          error: function(error){            
+            console.log('No funciona');
           }
+        });  
+        //console.log(usuario);
+        
+        //Se limpia la lista de mensajes
+        var element = document.getElementById("chatList");
+        element.innerHTML = '';
 
-          );
-        });
-
+        //Obtener el usuario o grupo seleccionado        
+        /*    NO IMPLEMENTADO
+        */                       
       }//usuario seleccionado
 
 
@@ -382,24 +361,24 @@
              
       }); 
 
-      io.socket.get('/chats/',function(data, response) {
-        //Obtener todo lo relacionado con el usuario, contactos, grupos, chats.
 
-        //console.log(data);
-                 
-
-      });
-
-
-     function formatoFechaMensajes(fecha){
-        //Formato de las fechas
-        var anio = fecha.substring(0,4);
-        var mes = fecha.substring(5,7);
-        var dia = fecha.substring(8,10);
-        var hora = fecha.substring(11,19);
-        var formatFecha = dia+'-'+mes+'-'+anio+' Hora: '+ hora;
-        return formatFecha;
-     } 
+      function actualizarListaChats() {
+        //Actualizar la lista de chat del usuario
+        var chat = { id_transmisor : transmisor, id_receptor : receptor, id_curso:grupo };
+        $.ajax({
+          url : '/chats/listchats/',
+          data : chat, 
+          method : 'get', //en este caso
+          dataType : 'json',
+          success : function(res){
+            console.log(res);
+            //actualizarListaChats();
+          },
+          error: function(error){            
+            console.log('No funciona');
+          }
+        }); 
+      }
 
 
      enviarMensajeButton.addEventListener('click', function(e){
@@ -423,7 +402,107 @@
           });
 
         }
-     });     
+     });   
+
+      io.socket.get('/chats/chatsindex',function(data, response) {
+        cursos = data.cursos;
+        usuariosReceptores = data.companieros;
+        chatsUsuario = data.chatsIndividuales;
+        //console.log();
+        //Obtener todo lo relacionado con el usuario, contactos, grupos, chats.
+        for(cursoActual of data.cursos){
+          addCursos(cursoActual);
+        }   
+
+        for(companieroActual of data.companieros){
+          addContactos(companieroActual);
+        }   
+
+        for(chatActual of data.chatsIndividuales){
+          addListaChatsUsuarios(chatActual);
+        }     
+
+      });//io.socket.get
+
+      function mostrarMensajes(data) { 
+        //Agregar los usuarios relacionados a la lista de contactos
+        var idChatSeleccionado = data.idChat;
+
+        for(chatActual of chatsUsuario){
+          if (chatActual.id_chat == idChatSeleccionado) {
+            addMensajes(chatActual);
+          }
+        } 
+      }//addContactos
+
+
+      function addListaChatsUsuarios(data) { 
+        //Agregar los chats a la lista de chats
+        if (transmisor == data.id_transmisor.id) {
+          $("#slide-out").append('<li>'+
+                                    '<a href="#" onclick="mostrarMensajes({idChat:'+data.id_chat+'});return false;">'+
+                                      '<div class="valign-wrapper">'+
+                                          '<img src="'+data.id_receptor.imagen+'" alt="" class="circle responsive-img" width="50" height="50"> '+
+                                          '<span class="black-text">'+
+                                            data.id_receptor.name+" "+data.id_receptor.last_name+
+                                          '</span>'+
+                                      '</div>'+
+                                    '</a>'+
+                                    '<div class="divider"></div>'+
+                                    '<div class="divider"></div>'+
+                                  '</li>');
+        }else{
+          $("#slide-out").append('<li>'+
+                                    '<a href="#" onclick="mostrarMensajes({idChat:'+data.id_chat+'});return false;">'+
+                                      '<div class="valign-wrapper">'+
+                                          '<img src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50"> '+
+                                          '<span class="black-text">'+
+                                            data.id_transmisor.name+" "+data.id_transmisor.last_name+
+                                          '</span>'+
+                                      '</div>'+
+                                    '</a>'+
+                                    '<div class="divider"></div>'+
+                                    '<div class="divider"></div>'+
+                                  '</li>');
+        }
+ 
+      }//addListaChatsUsuarios
+
+      function addContactos(data) { 
+        //Agregar los usuarios relacionados a la lista de contactos
+        $("#contactosList").append('<li class="collection-item avatar">'+
+                                          '<a href="#" onclick="usuarioSeleccionado({ idCompaniero:'+data.idCompaniero+' });return false;'+'">'+
+                                            '<img src="'+data.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                            '<span class="title black-text">Estudiante</span>'+
+                                            '<p class="black-text">'+data.nombreCompaniero+" "+data.apellido1Companiero+'</p>'+
+                                            '<a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>'+
+                                          '</a>'+
+                                        '</li>');
+ 
+      }//addContactos
+
+      function addCursos(data) { 
+        //Agregar los cursos a la lista de contactos
+        $("#contactosList").append('<li class="collection-item avatar">'+
+                                          '<a href="#" onclick="cursoSeleccionado({ idCurso:'+data.idCurso+' });return false;'+'">'+
+                                            '<img src="/images/curso.png" alt="" class="circle responsive-img" width="50" height="50">'+
+                                            '<span class="title black-text">Curso</span>'+
+                                            '<p class="black-text">'+data.nombreClase+'</p>'+
+                                            '<a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>'+
+                                          '</a>'+
+                                        '</li>');
+ 
+      }//addCursos
+
+      function formatoFechaMensajes(fecha){
+        //Formato de las fechas
+        var anio = fecha.substring(0,4);
+        var mes = fecha.substring(5,7);
+        var dia = fecha.substring(8,10);
+        var hora = fecha.substring(11,19);
+        var formatFecha = dia+'-'+mes+'-'+anio+' Hora: '+ hora;
+        return formatFecha;
+      }   
      
    </script>
 

@@ -16,8 +16,8 @@ module.exports = {
         var grupo = req.param('id_curso');
         var room;
         //var adjunto = req.file('adjunto');
-
-        console.log(req);
+        var socketId = sails.sockets.getId(req);
+        console.log(socketId);
 
         /*
         //La carga de archivos funciona utilizando POSMAN, analizar la forma de carga file en javascript
@@ -34,6 +34,7 @@ module.exports = {
 
 
         //Crear el mensaje
+        /*
         if (receptor) {        	
         	if(transmisor < receptor){
         		room = 'campus_chat_user'+transmisor+'_user'+receptor;
@@ -67,6 +68,7 @@ module.exports = {
                 });                
             });
         }
+        */
     },
 
     mensajes:function(req,res){        
@@ -76,10 +78,7 @@ module.exports = {
         var room;
         
 
-        //Subcribirse al socket
-        if( ! req.isSocket) {
-          return res.badRequest();
-        }        
+               
         
         //Buscar la forma de integrar el grupo
         if (receptor) {
@@ -89,12 +88,14 @@ module.exports = {
                 room = 'campus_chat_user'+receptor+'_user'+transmisor;
             }
             //Suscripción al socket
+            /*
             sails.sockets.join(req.socket, room,function(err){
                 if (err) {
                     return res.serverError(err);
                 }
                 //console.log('Inscrito en la room'+roomName);
             });
+            */
             //Recopilo los mensajes del usuario desde la relación User-Message
             Mensajes.find({
                 //Mensajes recibidos o enviados de o hacia el usuario actual
