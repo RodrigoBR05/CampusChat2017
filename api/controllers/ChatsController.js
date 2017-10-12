@@ -25,6 +25,7 @@ module.exports = {
 	    */
 
 	    var socketId = sails.sockets.getId(req);
+	    Chats.watch(req);
 
 	  	var queryCompanieros = 'SELECT '
 				                      +' s2.id idCompaniero, s2.name nombreCompaniero, s2.last_name apellido1Companiero,'
@@ -151,6 +152,8 @@ module.exports = {
 	  },
 	  create:function(req, res){
 	  	//Crear los chats individuales o grupales
+	    var socketId = sails.sockets.getId(req);
+	    console.log('Socket Post '+socketId);
 
 		// Pruebas para recibir parametros
 		var transmisor = req.param('id_transmisor');
@@ -189,15 +192,13 @@ module.exports = {
 				}
 
 				//Creamos el chat
-				Chats.create(chatObj, function(err, chat){			
+				Chats.create(chatObj).exec(function(err, chat){			
 					if (err) {
 	            		return res.serverError(err);
 					}
-	          		return res.json(chat);
-						
+					Chats.publishCreate(chat);
+	          		return res.json(chat);						
 				})
-	          }else{
-	          	return res.json({existe: true});
 	          }
 	        });
 
@@ -207,14 +208,23 @@ module.exports = {
       },
 
       listchats: function(req, res, next){
-      	console.log(req);
+
+      	var socketId = sails.sockets.getId(req);
+      	// Pruebas para recibir parametros
+		var transmisor = req.param('id_transmisor');
+		var receptor = req.param('id_receptor');
+		var grupo = req.param('id_curso');
+	    //console.log('Socket listchats '+socketId);
+	    console.log(transmisor);
+	    console.log(receptor);
+	    console.log(grupo);
+
       	//Recopilo los chat individuales del usuario
-      	/*
         Chats.find({
             //Chats del usuario actual
             or: [
-                { id_transmisor:usuarioActual.id},
-                { id_receptor:usuarioActual.id}
+                { id_transmisor:transmisor},
+                { id_receptor:transmisor}
             ]
         ,sort: 'fecha_actualizacion DESC'}).populate('id_receptor').populate('id_transmisor').populate('messages').exec(function (err, chats){
           if (err) {
@@ -224,17 +234,26 @@ module.exports = {
             return res.notFound('No existen registros de chats.');
           }
 
-          //sails.log('Registro encontrado:', chats);
-          //return res.json(messages);
+		  /*
+          //Unir los sockets a sus respectivos chats
+          for(chatActual of chats){
+          	console.log(socketId);
 
-            //Datos a la vista
-            res.view({
-              companieros : companierosResult,
-              cursos : cursosResult
+          	//Suscripción al socket
+            sails.sockets.join(socketId, chatActual.nombre_chat,function(err){
+                if (err) {
+                    return res.serverError(err);
+                }
+                console.log('Inscrito en la room'+chatActual.nombre_chat);
             });
+          }
+          */
 
-        });
-        */
+          res.json({
+		              chatsIndividuales : chats
+		            });
+
+      });
 	 }      
 	
 };

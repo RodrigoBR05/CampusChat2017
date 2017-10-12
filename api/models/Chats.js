@@ -43,7 +43,7 @@ module.exports = {
     //El chat tiene muchos mensajes
     messages:{
       collection: 'mensajes',
-      via: 'id_lista_chats'
+      via: 'id_chat'
     }
 
   }

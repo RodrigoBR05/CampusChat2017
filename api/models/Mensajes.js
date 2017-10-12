@@ -37,7 +37,7 @@ module.exports = {
   		model: 'cursos'		
   	},
 
-    id_lista_chats: {
+    id_chat: {
       model: 'chats'   
     },
 

@@ -47,22 +47,7 @@
       </nav>
 
       <ul id="slide-out" class="side-nav fixed">
-        <!--Encabezado del usuario imagen, nombre, correo-->
-        <li>
-          <div class="user-view colorCampusChat">
-            <img class="circle" src="<%= session.user.imagen  %>">
-            <div class="row">
-              <div class="col s10">
-                <a class="center"><span class="white-text name"><%= session.user.name  %> <%= session.user.last_name  %></span></a>
-                <a class="center"><span class="white-text email"><%= session.user.email  %></span></a>
-              </div>
-              <div class="col s2">
-                <a href="#contactos" title="Nuevo chat" class="btn-floating btn-large waves-effect waves-light white modal-trigger"><i class="material-icons colorCampusChat-text">message</i></a>
-              </div>              
-            </div>
-            
-          </div>
-        </li>
+        <!--Encabezado del usuario imagen, nombre, correo-->       
 
       </ul>
       
@@ -316,39 +301,30 @@
         //Se cierra el modal de los contactos del usuario
         $('#contactos').modal('close');  
 
-        console.log(receptor);
+        //Verificar que el chat exista o no en la lista chatsUsuario
+        var chatSeleccionado; 
+        var existeChat=false;
 
-      /*
-
-        //Actualizar el chat list de acuerdo al usuario seleccionado
-        var chat = { id_transmisor : transmisor, id_receptor : receptor };
-        $.ajax({
-          url : '/chats/create/',
-          data : chat, 
-          method : 'post', //en este caso
-          dataType : 'json',
-          success : function(res){
-            if(res.existe){
-              //Debo mostrarlo de primero y si envía un mensaje actualizo la fecha
-              console.log("Sí existe el chat...!");
-            }else{
-              //Debo unirlo a la room con el otro usuario
-              console.log(res);
-            }
-          },
-          error: function(error){            
-            console.log('No funciona');
+        for(let chatAct of chatsUsuario){
+          if ( (chatAct.id_transmisor.id == transmisor && chatAct.id_receptor.id == receptor ) || (chatAct.id_transmisor.id == receptor && chatAct.id_receptor.id == transmisor )) {
+            chatSeleccionado = chatAct;
+            existeChat = true;
           }
-        });  
-        //console.log(usuario);
-        
-        //Se limpia la lista de mensajes
-        var element = document.getElementById("chatList");
-        element.innerHTML = '';
+        }//for
 
-        //Obtener el usuario o grupo seleccionado        
-        /*    NO IMPLEMENTADO
-        */                       
+        if (existeChat) {
+          //muestro el chat desde la lista chatsUsuario
+          mostrarMensajes({ idChat : chatSeleccionado.id_chat });
+        }else{
+          //Creo un nuevo registro en la tabla chats
+          var chat = { id_transmisor : transmisor, id_receptor : receptor };
+          io.socket.post('/chats/create/', chat, function(data, response) {
+            if (data) {
+              actualizarListaChats();
+            }
+          });
+        }//else                  
+
       }//usuario seleccionado
 
 
@@ -359,28 +335,24 @@
           addMessage(broadcastedData.id_transmisor, broadcastedData.contenido, formatoFechaMensajes(broadcastedData.fecha_envio));  
         }
              
-      }); 
+      });   
 
+      io.socket.on('chats', function (event) {
 
-      function actualizarListaChats() {
-        //Actualizar la lista de chat del usuario
-        var chat = { id_transmisor : transmisor, id_receptor : receptor, id_curso:grupo };
-        $.ajax({
-          url : '/chats/listchats/',
-          data : chat, 
-          method : 'get', //en este caso
-          dataType : 'json',
-          success : function(res){
-            console.log(res);
-            //actualizarListaChats();
-          },
-          error: function(error){            
-            console.log('No funciona');
-          }
-        }); 
-      }
+        switch (event.verb) {
+          case 'created':
+            //Actualizar la lista de los chat cuando se crea un nuevo chat
+            console.log(event);
+            break;
+            
+          default:
+            console.warn('Unrecognized socket event (`%s`) from server:',event.verb, event);
+        }
 
+      });  
 
+     /*FALTA IMPLEMENTAR EL ENVÍO DE MENSAJES*/
+     /****************************************/ 
      enviarMensajeButton.addEventListener('click', function(e){
         //Verificar que exista archivos adjuntos o texto adjunto
         var imagenAdjunta = document.getElementById('imagenAdjunta').files.length;        
@@ -403,6 +375,22 @@
 
         }
      });   
+     /*******************************************************************/
+
+     function actualizarListaChats() {
+        //Actualizar la lista de chat del usuario
+        $('#slide-out').empty();
+        addEncabezadoListaChatsUsuarios();
+        var chatData = { id_transmisor : transmisor, id_receptor : receptor, id_curso:grupo };
+          io.socket.get('/chats/listchats',chatData,function(data, response) {
+
+            chatsUsuario = data.chatsIndividuales;
+            for(let chatActual of data.chatsIndividuales){
+              addListaChatsUsuarios(chatActual);
+            }  
+
+          });//io.socket.get 
+      }
 
       io.socket.get('/chats/chatsindex',function(data, response) {
         cursos = data.cursos;
@@ -418,6 +406,7 @@
           addContactos(companieroActual);
         }   
 
+        addEncabezadoListaChatsUsuarios();
         for(chatActual of data.chatsIndividuales){
           addListaChatsUsuarios(chatActual);
         }     
@@ -428,12 +417,33 @@
         //Agregar los usuarios relacionados a la lista de contactos
         var idChatSeleccionado = data.idChat;
 
-        for(chatActual of chatsUsuario){
+        for(let chatActual of chatsUsuario){
           if (chatActual.id_chat == idChatSeleccionado) {
             addMensajes(chatActual);
           }
         } 
       }//addContactos
+
+      function addEncabezadoListaChatsUsuarios(){
+        //Agrega el encabezado de la lista de chats                 
+        $('#slide-out').empty();        
+        $("#slide-out").append('<li>'+
+                                  '<div class="user-view colorCampusChat">'+
+                                    '<img class="circle" src="<%= session.user.imagen  %>">'+
+                                    '<div class="row">'+
+                                      '<div class="col s10">'+
+                                        '<a class="center"><span class="white-text name"><%= session.user.name  %> <%= session.user.last_name  %></span></a>'+
+                                        '<a class="center"><span class="white-text email"><%= session.user.email  %></span></a>'+
+                                      '</div>'+
+                                      '<div class="col s2">'+
+                                        '<a href="#contactos" title="Nuevo chat" class="btn-floating btn-large waves-effect waves-light white modal-trigger"><i class="material-icons colorCampusChat-text">message</i></a>'+
+                                      '</div>'+
+                                    '</div>'+
+                                    
+                                  '</div>'+
+                                '</li>');                                     
+ 
+      }//addEncabezadoListaChatsUsuarios
 
 
       function addListaChatsUsuarios(data) { 
@@ -464,8 +474,7 @@
                                     '<div class="divider"></div>'+
                                     '<div class="divider"></div>'+
                                   '</li>');
-        }
- 
+        } 
       }//addListaChatsUsuarios
 
       function addContactos(data) { 
