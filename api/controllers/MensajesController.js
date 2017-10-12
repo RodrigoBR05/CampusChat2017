@@ -14,10 +14,12 @@ module.exports = {
         var transmisor = req.param('id_transmisor');
         var receptor = req.param('id_receptor');
         var grupo = req.param('id_curso');
-        var room;
+        var chat = req.param('id_chat');
+
         //var adjunto = req.file('adjunto');
-        var socketId = sails.sockets.getId(req);
-        console.log(socketId);
+        //var socketId = sails.sockets.getId(req);
+        //console.log(socketId);
+        //console.log(chat);
 
         /*
         //La carga de archivos funciona utilizando POSMAN, analizar la forma de carga file en javascript
@@ -31,25 +33,19 @@ module.exports = {
         });
         */
 
-
-
         //Crear el mensaje
-        /*
-        if (receptor) {        	
-        	if(transmisor < receptor){
-        		room = 'campus_chat_user'+transmisor+'_user'+receptor;
-        	}else{
-        		room = 'campus_chat_user'+receptor+'_user'+transmisor;
-        	}
-            Mensajes.create({contenido: mensaje,id_transmisor: transmisor,id_receptor:receptor, nombre_chat: room}).exec(function(err, records){
+        if (receptor) { 
+
+            Mensajes.create({contenido: mensaje,id_transmisor: transmisor,id_receptor:receptor, id_chat: chat}).exec(function(err, records){
                 if (err) { return res.serverError(err);}
                 //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
-                Mensajes.findOne(records.id_mensaje).populate('id_transmisor').populate('id_receptor').exec(function(err, message){
+                Mensajes.findOne(records.id_mensaje).populate('id_transmisor').populate('id_receptor').populate('id_chat').exec(function(err, message){
                     if (err) {return res.serverError(err)};
                     if (!message) {
                         return res.notFound('No se encontró el registro');
                     }
-                    sails.sockets.broadcast(room, 'new_message', message);                    
+                    //Notifico el nuevo mensaje al usuario receptor
+                    sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
                     res.json(message);
                 });      
             });
@@ -68,7 +64,6 @@ module.exports = {
                 });                
             });
         }
-        */
     },
 
     mensajes:function(req,res){        

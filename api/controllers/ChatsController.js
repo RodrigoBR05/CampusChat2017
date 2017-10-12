@@ -124,14 +124,14 @@ module.exports = {
 
 	              //Unir los sockets a sus respectivos chats
 	              for(chatActual of chats){
-	              	console.log(socketId);
+	              	//console.log(socketId);
 
 	              	//Suscripción al socket
 		            sails.sockets.join(socketId, chatActual.nombre_chat,function(err){
 		                if (err) {
 		                    return res.serverError(err);
 		                }
-		                console.log('Inscrito en la room'+chatActual.nombre_chat);
+		                //console.log('Inscrito en la room'+chatActual.nombre_chat);
 		            });
 	              }
 
@@ -153,7 +153,7 @@ module.exports = {
 	  create:function(req, res){
 	  	//Crear los chats individuales o grupales
 	    var socketId = sails.sockets.getId(req);
-	    console.log('Socket Post '+socketId);
+	    //console.log('Socket Post '+socketId);
 
 		// Pruebas para recibir parametros
 		var transmisor = req.param('id_transmisor');
@@ -196,7 +196,9 @@ module.exports = {
 					if (err) {
 	            		return res.serverError(err);
 					}
-					Chats.publishCreate(chat);
+		            
+					//Publica que se creo un nuevo chat a todos, menos a quien lo creo
+					Chats.publishCreate(chat, req);
 	          		return res.json(chat);						
 				})
 	          }
@@ -215,9 +217,9 @@ module.exports = {
 		var receptor = req.param('id_receptor');
 		var grupo = req.param('id_curso');
 	    //console.log('Socket listchats '+socketId);
-	    console.log(transmisor);
-	    console.log(receptor);
-	    console.log(grupo);
+	    //console.log(transmisor);
+	    //console.log(receptor);
+	    //console.log(grupo);
 
       	//Recopilo los chat individuales del usuario
         Chats.find({
@@ -234,20 +236,18 @@ module.exports = {
             return res.notFound('No existen registros de chats.');
           }
 
-		  /*
           //Unir los sockets a sus respectivos chats
           for(chatActual of chats){
-          	console.log(socketId);
+          	//console.log('Sockets listchats'+socketId);
 
           	//Suscripción al socket
             sails.sockets.join(socketId, chatActual.nombre_chat,function(err){
                 if (err) {
                     return res.serverError(err);
                 }
-                console.log('Inscrito en la room'+chatActual.nombre_chat);
+                //console.log('Inscrito en la room listchats'+chatActual.nombre_chat);
             });
           }
-          */
 
           res.json({
 		              chatsIndividuales : chats

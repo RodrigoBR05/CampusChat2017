@@ -239,6 +239,7 @@
      var cursos;
      var usuariosReceptores;
      var chatsUsuario;
+     var chatSeleccionadoActual;
      //Petición para mensajes
      var peticion = '/mensajes/mensajes';          
      //Botones
@@ -263,37 +264,131 @@
             $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuarioTransmisorChat.name+' '+usuarioTransmisorChat.last_name);
         }
 
-        //console.log(usuarioTransmisorChat);
-        //console.log(usuarioReceptorChat);
-
+        $('#chatList').empty();   
         for(mensajeActual of data.messages){
-          console.log(mensajeActual);
+
+          if ( (transmisor == mensajeActual.id_transmisor) && (transmisor == data.id_transmisor.id) ) {            
+
+            $("#chatList").append('<li class="collection-item valign-wrapper">'+
+                                  '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'">'+mensajeActual.contenido+'<br>'+
+                                  '</p>'+
+                                '</li>'); 
+
+          }else if ( (transmisor == mensajeActual.id_transmisor) && (transmisor == data.id_receptor.id) ) {
+
+            $("#chatList").append('<li class="collection-item valign-wrapper">'+
+                                  '<img title="'+data.id_receptor.name+' '+data.id_receptor.last_name+' '+data.id_receptor.last_name2+'"src="'+data.id_receptor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'">'+mensajeActual.contenido+'<br>'+
+                                  '</p>'+
+                                '</li>');
+
+          }else if ( (transmisor != mensajeActual.id_transmisor) && (transmisor == data.id_transmisor.id) ) {
+
+            $("#chatList").append('<li class="collection-item valign-wrapper">'+
+                                  '<img title="'+data.id_receptor.name+' '+data.id_receptor.last_name+' '+data.id_receptor.last_name2+'"src="'+data.id_receptor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'">'+mensajeActual.contenido+'<br>'+
+                                  '</p>'+
+                                '</li>'); 
+
+          }else if ( (transmisor != mensajeActual.id_transmisor) && (transmisor == data.id_receptor.id) ) {
+
+            $("#chatList").append('<li class="collection-item valign-wrapper">'+
+                                              '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                              '<p title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'">'+mensajeActual.contenido+'<br>'+
+                                              '</p>'+
+                                            '</li>'); 
+            
+          }
+          
         }
 
         $('#logoInicio').hide(); //oculto el logo                
         $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
         $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
-        $('#chatBody').show(); //muestro la listas de mensajes
-
-        /*
-          listaMensajes.innerHTML =   listaMensajes.innerHTML+
-                                        '<li class="collection-item valign-wrapper">'+
-                                          '<img title="'+transmitter.name+' '+transmitter.last_name+' '+transmitter.last_name2+'"src="'+transmitter.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                          '<p title="'+fechaEnvio+'">'+message+'<br>'+
-                                          '</p>'
-                                        '</li>';
-
-        // cuando exista un nuevo mensaje
+        //Muestra el último mensaje
         $("#chatBody").animate({scrollTop: $(this).height()+100000}, 'fast');
+        $('#chatBody').show(); //muestro la listas de mensajes        
         return false;
-        */
- 
-      }
+
+      }//addMensajes
+
+      function addMensaje(data) {
+
+        if ( chatSeleccionadoActual == data.id_chat.id_chat) {
+
+          var usuarioTransmisorMensaje = data.id_transmisor;
+          var usuarioReceptorMensaje =  data.id_receptor;
+
+          //Misma información lo que va a cambiar es la posición en la lista de mensajes
+          if ( transmisor == usuarioTransmisorMensaje.id ) {            
+
+            $("#chatList").append('<li class="collection-item valign-wrapper">'+
+                                  '<img title="'+usuarioTransmisorMensaje.name+' '+usuarioTransmisorMensaje.last_name+' '+usuarioTransmisorMensaje.last_name2+'"src="'+usuarioTransmisorMensaje.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p title="'+formatoFechaMensajes(data.fecha_envio)+'">'+data.contenido+'<br>'+
+                                  '</p>'+
+                                '</li>'); 
+
+          }else {
+
+            $("#chatList").append('<li class="collection-item valign-wrapper">'+
+                                  '<img title="'+usuarioTransmisorMensaje.name+' '+usuarioTransmisorMensaje.last_name+' '+usuarioTransmisorMensaje.last_name2+'"src="'+usuarioTransmisorMensaje.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p title="'+formatoFechaMensajes(data.fecha_envio)+'">'+data.contenido+'<br>'+
+                                  '</p>'+
+                                '</li>');
+
+          }            
+
+          //Muestra el mensaje enviado
+          $("#chatBody").animate({scrollTop: $(this).height()+100000}, 'fast');
+          return false;
+        }else{
+            //IMPLEMENTAR PASAR EL CHAT DE PRIMERO CON EL NUEVO MENSAJE
+
+
+        }
+        
+      }//addMensaje
 
       function cursoSeleccionado(curso) { 
         console.log(curso.idCurso);
       }
+ 
 
+      io.socket.on('new_message', function(newMessage){  
+          addMensaje(newMessage);               
+      });   
+
+
+     /*FALTA IMPLEMENTAR EL ENVÍO DE MENSAJES*/
+     /****************************************/ 
+     enviarMensajeButton.addEventListener('click', function(e){
+        //Verificar que exista archivos adjuntos o texto adjunto
+        //var imagenAdjunta = document.getElementById('imagenAdjunta').files.length;        
+        if (mensaje.value) {
+          //imagenAdjunta = document.getElementById('imagenAdjunta').files[0];
+          //console.log(imagenAdjunta);
+          var data = {
+            contenido: mensaje.value,
+            id_transmisor: transmisor,
+            id_receptor: receptor,
+            id_grupo: grupo,
+            id_chat: chatSeleccionadoActual
+            //adjunto: imagenAdjunta
+          }
+
+          //Guardar los mensajes en la BD, persistencia
+          
+          io.socket.post('/mensajes', data, function(data, response) {
+            //console.log(data);
+            mensaje.value = null;
+            //$('#imagenAdjunta').val(null);
+          });
+          
+
+        }
+     });   
+     /*******************************************************************/
 
      function usuarioSeleccionado(usuario) { 
         //Usuario o grupo receptor
@@ -327,55 +422,20 @@
 
       }//usuario seleccionado
 
-
-      io.socket.on('new_message', function(broadcastedData){  
-        //console.log(broadcastedData);
-        //console.log(receptor);
-        if ((receptor == broadcastedData.id_receptor.id) || (receptor == broadcastedData.id_transmisor.id)) {
-          addMessage(broadcastedData.id_transmisor, broadcastedData.contenido, formatoFechaMensajes(broadcastedData.fecha_envio));  
-        }
-             
-      });   
-
       io.socket.on('chats', function (event) {
-
+        //Si se crea un nuevo chat todos los usuarios actualizan su lista de contactos
         switch (event.verb) {
           case 'created':
             //Actualizar la lista de los chat cuando se crea un nuevo chat
-            console.log(event);
+            actualizarListaChats();
             break;
             
           default:
-            console.warn('Unrecognized socket event (`%s`) from server:',event.verb, event);
+            console.warn('Evento del socket no reconocido por el servidor:',event.verb, event);
         }
 
-      });  
+      }); //io.socket.on chats 
 
-     /*FALTA IMPLEMENTAR EL ENVÍO DE MENSAJES*/
-     /****************************************/ 
-     enviarMensajeButton.addEventListener('click', function(e){
-        //Verificar que exista archivos adjuntos o texto adjunto
-        var imagenAdjunta = document.getElementById('imagenAdjunta').files.length;        
-        if (mensaje.value || (imagenAdjunta == 1)) {
-          //imagenAdjunta = document.getElementById('imagenAdjunta').files[0];
-          //console.log(imagenAdjunta);
-          var data = {
-            contenido: mensaje.value,
-            id_transmisor: transmisor,
-            id_receptor: receptor,
-            id_grupo: grupo,
-            //adjunto: imagenAdjunta
-          }
-
-          //Guardar los mensajes en la BD, persistencia
-          io.socket.post('/mensajes', data, function(data, response) {
-            mensaje.value = null;
-            //$('#imagenAdjunta').val(null);
-          });
-
-        }
-     });   
-     /*******************************************************************/
 
      function actualizarListaChats() {
         //Actualizar la lista de chat del usuario
@@ -414,11 +474,19 @@
       });//io.socket.get
 
       function mostrarMensajes(data) { 
-        //Agregar los usuarios relacionados a la lista de contactos
+        $('#chatList').empty(); 
+        //Muestra los mensajes del chat seleccionado
         var idChatSeleccionado = data.idChat;
 
         for(let chatActual of chatsUsuario){
           if (chatActual.id_chat == idChatSeleccionado) {
+
+            if (transmisor == chatActual.id_transmisor.id) {
+              receptor = chatActual.id_receptor.id;
+            }else{
+              receptor = chatActual.id_transmisor.id;
+            }
+            chatSeleccionadoActual = chatActual.id_chat;
             addMensajes(chatActual);
           }
         } 
