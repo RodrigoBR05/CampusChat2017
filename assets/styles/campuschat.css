@@ -69,3 +69,25 @@ main {
     float: right;
     background:red
 }
+
+.mensajeTransmisor{
+  color: #ffffff;
+  background: #C84A2B;
+  margin: 0 0 25px;
+  overflow: hidden;
+  padding: 15px;
+  border-radius: 35px 0px 35px 0px;
+  -moz-border-radius: 35px 0px 35px 0px;
+  -webkit-border-radius: 35px 0px 35px 0px;
+  border: 0.1px solid #C84A2B;
+}
+
+.mensajeReceptor{
+  margin: 0 0 25px;
+  overflow: hidden;
+  padding: 15px;
+  border-radius: 0px 35px 0px 35px;
+  -moz-border-radius: 0px 35px 0px 35px;
+  -webkit-border-radius: 0px 35px 0px 35px;
+  border: 0.1px solid #C84A2B;
+}
