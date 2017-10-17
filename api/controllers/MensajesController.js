@@ -44,9 +44,20 @@ module.exports = {
                     if (!message) {
                         return res.notFound('No se encontró el registro');
                     }
-                    //Notifico el nuevo mensaje al usuario receptor
-                    sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
-                    res.json(message);
+
+                    var fechaActualizacion = new Date();
+                    Chats.update( {id_chat: records.id_chat },{fecha_actualizacion:fechaActualizacion}).exec(function(err, chat){
+                        if (err) {return res.serverError(err)};
+                        if (!chat) {
+                            return res.notFound('No se encontró el registro');
+                        }
+                        
+                        //Notifico el nuevo mensaje al usuario receptor
+                        sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
+                        res.json(message);
+
+                    });     
+
                 });      
             });
 
