@@ -30,7 +30,7 @@ module.exports = {
   	},
 
   	id_curso: {
-  	  model: 'cursos'		
+  	  model: 'cursoentidad'		
   	},
 
   	nombre_chat: {

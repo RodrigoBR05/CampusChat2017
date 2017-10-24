@@ -41,10 +41,12 @@ module.exports = {
 
     //El curso tiene muchos mensajes
     //Chats
+    /*
     chat:{
       collection: 'chats',
       via: 'id_curso'
     }
+    */
 
   }
 };

@@ -23,15 +23,14 @@ main {
   flex: 1 0 auto;
 }
 
-.contenedorChat
-{
+.contenedorChat {
   margin: 0 auto;
   max-width: 1280px;
-  width: 90%;
-
+  width: 100%;
   position: fixed;
-  height: 65%;
-  z-index: 999;
+
+  height: 63%;
+
   overflow-y: scroll;
   will-change: transform;
 
@@ -41,13 +40,13 @@ main {
 
 @media only screen and (min-width: 601px) {
   .contenedorChat {
-    width: 80%;
+    width: 100%;
   }
 }
 
 @media only screen and (min-width: 993px) {
   .contenedorChat {
-    width: 77%;
+    width: 75%;
   }
 }
 
@@ -76,10 +75,16 @@ main {
   margin: 0 0 25px;
   overflow: hidden;
   padding: 15px;
+  border-radius: 0px 35px 0px 35px;
+  -moz-border-radius: 0px 35px 0px 35px;
+  -webkit-border-radius: 0px 35px 0px 35px;
+  border: 0.1px solid #C84A2B;
+  /*
   border-radius: 35px 0px 35px 0px;
   -moz-border-radius: 35px 0px 35px 0px;
   -webkit-border-radius: 35px 0px 35px 0px;
   border: 0.1px solid #C84A2B;
+  */
 }
 
 .mensajeReceptor{

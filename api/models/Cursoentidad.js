@@ -31,6 +31,10 @@ module.exports = {
       size: 8	
   	},
 
+    codigo: {
+      type: 'text'
+    },
+
   	id_profesor: {
   		type: 'integer'		
   	},
@@ -45,7 +49,12 @@ module.exports = {
 
   	id_Colegio: {
   		type: 'integer'
-  	}
+  	},
+    //Chats
+    chat:{
+      collection: 'chats',
+      via: 'id_curso'
+    }
 
   }
 };

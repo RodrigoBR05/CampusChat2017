@@ -105,16 +105,19 @@ module.exports = {
 	          //Cursos
 	          if (err) { return res.serverError(err); }
 
-	          //Obtengo los chats de los cursos actuales del estudiante	          
+	          //Obtengo los chats de los cursos actuales del estudiante	
+	          var cursosEstudiante=[];
+	          for(cursoActual of cursosResult){
+	          	cursosEstudiante = cursosEstudiante.concat([{ id_curso: cursoActual.idCurso}]);
+
+              }  
+              var queryOr = [{ id_transmisor:usuarioActual.id}, { id_receptor:usuarioActual.id}].concat(cursosEstudiante);
+              //Chats del usuario actual
+	          var findOr = { or: queryOr ,sort: 'fecha_actualizacion DESC'}; 
+	          //console.log(findOr);
 
 	          //Recopilo los chat individuales del usuario
-	            Chats.find({
-	                //Chats del usuario actual
-	                or: [
-	                    { id_transmisor:usuarioActual.id},
-	                    { id_receptor:usuarioActual.id}
-	                ]
-	            ,sort: 'fecha_actualizacion DESC'}).populate('id_receptor').populate('id_transmisor').populate('messages').exec(function (err, chats){
+	            Chats.find(findOr).populate('id_receptor').populate('id_transmisor').populate('id_curso').populate('messages').exec(function (err, chats){
 	              if (err) {
 	                return res.serverError(err);
 	              }
@@ -124,7 +127,7 @@ module.exports = {
 
 	              //Unir los sockets a sus respectivos chats
 	              for(chatActual of chats){
-	              	//console.log(socketId);
+	              	//console.log(chatActual);
 
 	              	//Suscripción al socket
 		            sails.sockets.join(socketId, chatActual.nombre_chat,function(err){
@@ -138,7 +141,7 @@ module.exports = {
 	              res.json({
 				              companieros : companierosResult,
 				              cursos : cursosResult,
-				              chatsIndividuales : chats
+				              chatsUsuario : chats
 				            });
 
 		      });
@@ -147,7 +150,7 @@ module.exports = {
 
 	      });
 	      
-	    }
+	    }//if
 
 	  },
 	  create:function(req, res){
@@ -205,7 +208,35 @@ module.exports = {
 	        });
 
 		}else if (grupo) {
+			Chats.findOne({ id_curso:grupo } ).exec(function (err, chat){
+	          if (err) {
+	            return res.serverError(err);
+	          }
+	          if (!chat) {
 
+	        	nombreChat = 'campus_chat_group'+grupo;
+
+	          	//Crear el chat
+	          	var chatObj ={
+					id_transmisor : transmisor,
+					id_receptor : receptor,
+					id_curso : grupo,
+					nombre_chat : nombreChat,
+					fecha_actualizacion : fechaActualizacion				
+				}
+
+				//Creamos el chat
+				Chats.create(chatObj).exec(function(err, chat){			
+					if (err) {
+	            		return res.serverError(err);
+					}
+		            
+					//Publica que se creo un nuevo chat a todos, menos a quien lo creo
+					Chats.publishCreate(chat, req);
+	          		//return res.json(chat);						
+				})
+	          }
+	        });
 		}
       },
 

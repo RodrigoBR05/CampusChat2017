@@ -7574,7 +7574,8 @@ input[type=range]:focus::-ms-fill-upper {
   right: 0;
   height: 120vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  /*Modifica de 999 a 998 Rodrigo Brenes 19 de octubre del 2017*/
+  z-index: 998;
   will-change: opacity;
 }
 
