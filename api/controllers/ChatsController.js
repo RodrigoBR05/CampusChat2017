@@ -233,7 +233,7 @@ module.exports = {
 		            
 					//Publica que se creo un nuevo chat a todos, menos a quien lo creo
 					Chats.publishCreate(chat, req);
-	          		//return res.json(chat);						
+	          		return res.json(chat);						
 				})
 	          }
 	        });
@@ -245,46 +245,72 @@ module.exports = {
       	var socketId = sails.sockets.getId(req);
       	// Pruebas para recibir parametros
 		var transmisor = req.param('id_transmisor');
-		var receptor = req.param('id_receptor');
-		var grupo = req.param('id_curso');
-	    //console.log('Socket listchats '+socketId);
 	    //console.log(transmisor);
-	    //console.log(receptor);
-	    //console.log(grupo);
 
-      	//Recopilo los chat individuales del usuario
-        Chats.find({
-            //Chats del usuario actual
-            or: [
-                { id_transmisor:transmisor},
-                { id_receptor:transmisor}
-            ]
-        ,sort: 'fecha_actualizacion DESC'}).populate('id_receptor').populate('id_transmisor').populate('messages').exec(function (err, chats){
-          if (err) {
-            return res.serverError(err);
-          }
-          if (!chats) {
-            return res.notFound('No existen registros de chats.');
-          }
+	    var queryCursos = 'SELECT '
+	                          +' a.id_Usuario,'
+	                          +' b.id_Colegio idColegio,'
+	                          +' a.id_Curso idNivel,'
+	                          +' bh.id_CursoEntidad idSeccion,'
+	                          +' a.id_CursoEntidad idCurso,'
+	                          +' d.nombreProyecto nombreColegio,'
+	                          +' descripcion nombreNivel,'
+	                          +' b.codigo nombreClase,'
+	                          +' b.id_Profesor'
+	                        +' FROM'
+	                          +' cursosestudiantes a'
+	                          +' inner join cursoentidad b ON a.id_CursoEntidad = b.id_CursoEntidad'
+	                          +' left outer join cursoentidad bh ON b.id_CursoEntidadPadre = bh.id_CursoEntidad'
+	                          +' inner join cursos c ON b.id_Curso = c.id_Curso'
+	                          +' inner join administrativo d ON c.id_Colegio = d.id_Administrativo'
+	                        +' WHERE'
+	                          +' a.id_Usuario = ?'
+	                          +' AND b.estado in (2 , 6)';
 
-          //Unir los sockets a sus respectivos chats
-          for(chatActual of chats){
-          	//console.log('Sockets listchats'+socketId);
+	    Cursos.query(queryCursos, [transmisor] ,function(err, cursosResult) {
+          //Cursos
+          if (err) { return res.serverError(err); }
 
-          	//Suscripción al socket
-            sails.sockets.join(socketId, chatActual.nombre_chat,function(err){
-                if (err) {
-                    return res.serverError(err);
-                }
-                //console.log('Inscrito en la room listchats'+chatActual.nombre_chat);
-            });
-          }
+          //Obtengo los chats de los cursos actuales del estudiante	
+          var cursosEstudiante=[];
+          for(cursoActual of cursosResult){
+          	cursosEstudiante = cursosEstudiante.concat([{ id_curso: cursoActual.idCurso}]);
 
-          res.json({
-		              chatsIndividuales : chats
-		            });
+          }  
+          var queryOr = [{ id_transmisor:transmisor}, { id_receptor:transmisor}].concat(cursosEstudiante);
+          //Chats del usuario actual
+          var findOr = { or: queryOr ,sort: 'fecha_actualizacion DESC'}; 
+          //console.log(findOr);
 
-      });
+          //Recopilo los chat individuales del usuario
+            Chats.find(findOr).populate('id_receptor').populate('id_transmisor').populate('id_curso').populate('messages').exec(function (err, chats){
+              if (err) {
+                return res.serverError(err);
+              }
+              if (!chats) {
+                return res.notFound('No existen registros de chats.');
+              }
+
+              //Unir los sockets a sus respectivos chats
+              for(chatActual of chats){
+              	//console.log(chatActual);
+              	//Suscripción al socket
+	            sails.sockets.join(socketId, chatActual.nombre_chat,function(err){
+	                if (err) {
+	                    return res.serverError(err);
+	                }
+	                //console.log('Inscrito en la room'+chatActual.nombre_chat);
+	            });
+              }
+
+              res.json({
+			              chatsUsuario : chats
+			            });
+
+	      });
+
+	    });
+      	
 	 }      
 	
 };

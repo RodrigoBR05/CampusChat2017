@@ -21,7 +21,7 @@
       <nav class="top-nav colorCampusChat">
         
         <a href="#" title="Chats" data-activates="slide-out" class="left button-collapse top-nav circle hide-on-large-only"><i class="material-icons">menu</i></a>
-
+        
         <div class="nav-wrapper">
           <ul class="right">
            <li>
@@ -191,8 +191,7 @@
             <div class="row">
               <div class="input-field col s8 l11 offset-s1">
                 <i class="material-icons prefix">message</i>
-                <input id="mensaje" name="mensaje" id="first_name" type="text" class="validate" required>
-                <label for="mensaje" data-error="No se pueden enviar mensajes en blanco">Escribe un mensaje aquí</label>
+                <input id="mensaje" name="mensaje" id="first_name" type="text" class="validate" required placeholder="Escribe un mensaje aquí">
               </div>
               <div class="input-field col s1 l1">
                 <button id="enviarMensajeButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
@@ -218,7 +217,14 @@
           closeOnClick: true,
        });      
        $('.modal').modal();
+       //Appending HTML5 Audio Tag in HTML Body
+       $('<audio id="chatAudio"><source src="/sound/notificacion.mp3" type="audio/mpeg"></audio>').appendTo('body');
      });
+   </script>
+
+   <script>
+     
+
    </script>
 
    <script>
@@ -256,46 +262,47 @@
 
      function addMensajes(data) {
 
-        var usuarioTransmisorChat = data.id_transmisor;
-        var usuarioReceptorChat =  data.id_receptor;
-
+        //console.log(data);
         $('#chatList').empty();   
-        for(mensajeActual of data.messages){
 
-          if ( (transmisor == mensajeActual.id_transmisor) && (transmisor == data.id_transmisor.id) ) {            
+        for(let mensajeActual of data){
+          if (mensajeActual.id_curso) {
+            if (transmisor == mensajeActual.id_transmisor.id) {             
 
-            $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
-                                  '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                  '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+                                  '<img title="'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'"src="'+mensajeActual.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
                                   '</p>'+
                                 '</li>'); 
 
-          }else if ( (transmisor == mensajeActual.id_transmisor) && (transmisor == data.id_receptor.id) ) {
-
-            $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
-                                  '<img title="'+data.id_receptor.name+' '+data.id_receptor.last_name+' '+data.id_receptor.last_name2+'"src="'+data.id_receptor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                  '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+data.id_receptor.name+' '+data.id_receptor.last_name+' '+data.id_receptor.last_name2+'</b><br>'+mensajeActual.contenido+
+            }else{
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+                                  '<img title="'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'"src="'+mensajeActual.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p class="mensajeReceptor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
                                   '</p>'+
-                                '</li>');
+                                '</li>'); 
+            }
 
-          }else if ( (transmisor != mensajeActual.id_transmisor) && (transmisor == data.id_transmisor.id) ) {
+          }else{
 
-            $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
-                                  '<img title="'+data.id_receptor.name+' '+data.id_receptor.last_name+' '+data.id_receptor.last_name2+'"src="'+data.id_receptor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                  '<p class="mensajeReceptor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+data.id_receptor.name+' '+data.id_receptor.last_name+' '+data.id_receptor.last_name2+'</b><br>'+mensajeActual.contenido+
+            if (transmisor == mensajeActual.id_transmisor.id) {             
+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+                                  '<img title="'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'"src="'+mensajeActual.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
                                   '</p>'+
                                 '</li>'); 
 
-          }else if ( (transmisor != mensajeActual.id_transmisor) && (transmisor == data.id_receptor.id) ) {
+            }else{
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+                                  '<img title="'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'"src="'+mensajeActual.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p class="mensajeReceptor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
+                                  '</p>'+
+                                '</li>'); 
+            }
 
-            $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
-                                              '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                              '<p class="mensajeReceptor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
-                                              '</p>'+
-                                            '</li>');             
-          }
-          
-        }
+          }//else externo        
+        }//for
 
         $('#logoInicio').hide(); //oculto el logo                
         $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
@@ -310,37 +317,57 @@
       function addMensaje(data) {
 
         if ( chatSeleccionadoActual == data.id_chat.id_chat) {
+          console.log(data);
 
-          var usuarioTransmisorMensaje = data.id_transmisor;
-          var usuarioReceptorMensaje =  data.id_receptor;
+          if (data.id_curso) {
+            
+            if (transmisor == data.id_transmisor.id) {             
 
-          //Misma información lo que va a cambiar es la posición en la lista de mensajes
-          if ( transmisor == usuarioTransmisorMensaje.id ) {            
-
-            $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
-                                  '<img title="'+usuarioTransmisorMensaje.name+' '+usuarioTransmisorMensaje.last_name+' '+usuarioTransmisorMensaje.last_name2+'"src="'+usuarioTransmisorMensaje.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                  '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+usuarioTransmisorMensaje.name+' '+usuarioTransmisorMensaje.last_name+' '+usuarioTransmisorMensaje.last_name2+'</b><br>'+data.contenido+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+                                  '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
                                   '</p>'+
                                 '</li>'); 
 
-          }else {
+            }else{
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+                                  '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
+                                  '</p>'+
+                                '</li>'); 
+              $('#chatAudio')[0].play();
 
-            $("#chatList").append('<li class="collection-item valign-wrapper">'+
-                                  '<img title="'+usuarioTransmisorMensaje.name+' '+usuarioTransmisorMensaje.last_name+' '+usuarioTransmisorMensaje.last_name2+'"src="'+usuarioTransmisorMensaje.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-                                  '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+usuarioTransmisorMensaje.name+' '+usuarioTransmisorMensaje.last_name+' '+usuarioTransmisorMensaje.last_name2+'</b><br>'+data.contenido+
+            }
+          }else{
+            if (transmisor == data.id_transmisor.id) {             
+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+                                  '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
+                                  '</p>'+
+                                '</li>'); 
+
+            }else{
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+                                  '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
+                                  '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
                                   '</p>'+
                                 '</li>');
-
-          }            
+              $('#chatAudio')[0].play();
+                                 
+            }
+          }//else externo
 
           //Muestra el mensaje enviado
           $("#chatList").animate({scrollTop: $(this).height()+100000}, 'fast');
           return false;
+
         }else{
             //IMPLEMENTAR PASAR EL CHAT DE PRIMERO CON EL NUEVO MENSAJE
+            $('#chatAudio')[0].play();
             actualizarListaChats();
-        }
-        
+
+        }        
       }//addMensaje
 
       function newChat(data) {
@@ -367,46 +394,38 @@
         var chatSeleccionado; 
         var existeChat=false;
 
-        console.log(grupo);
-
-
+        //console.log(grupo);
         //console.log(chatsUsuario);
-        /*
 
         for(let chatAct of chatsUsuario){
-          if ( (chatAct.id_transmisor.id == transmisor && chatAct.id_receptor.id == receptor ) || (chatAct.id_transmisor.id == receptor && chatAct.id_receptor.id == transmisor )) {
-            chatSeleccionado = chatAct;
-            existeChat = true;
-          }
+          if (chatAct.id_curso) {
+            if ( chatAct.id_curso.id_CursoEntidad == grupo ) {
+              chatSeleccionado = chatAct;
+              existeChat = true;
+            }
+          }        
         }//for
 
         if (existeChat) {
           //muestro el chat desde la lista chatsUsuario
           mostrarMensajes({ idChat : chatSeleccionado.id_chat });
         }else{
-*/
           //Creo un nuevo registro en la tabla chats
           var chat = { id_curso : grupo };
           io.socket.post('/chats/create/', chat, function(data, response) {
             if (data) {
-              console.log(data);
-              /*
-              for(let usuarioAct of usuariosReceptores){
-                
-                if ( (usuarioAct.idCompaniero == data.id_receptor) ) {
+              for(let cursoActual of cursos){
+                if ( cursoActual.idCurso == data.id_curso ) {
                   chatSeleccionadoActual = data.id_chat;
-                  newChat(usuarioAct);
+                  newChat(chatSeleccionadoActual);
                   break;
                 }
-              }//for
+              }
 
               actualizarListaChats();
-              */
-            }
+            }//if
           });
-          /*)
-        }//else   
-        */
+        }//else           
       }//cursoSeleccionado
  
 
@@ -418,6 +437,7 @@
      /*FALTA IMPLEMENTAR EL ENVÍO DE MENSAJES*/
      /****************************************/ 
      enviarMensajeButton.addEventListener('click', function(e){
+        console.log(grupo);
         if (mensaje.value) {
           var data = {
             contenido: mensaje.value,
@@ -428,7 +448,7 @@
           }
 
           //Guardar los mensajes en la BD, persistencia
-          io.socket.post('/mensajes', data, function(data, response) {
+          io.socket.post('/mensajeschat', data, function(data, response) {
             mensaje.value = null;
           });
         }
@@ -442,17 +462,18 @@
         $('#contactos').modal('close');  
         $('#imagenAdjuntaBtn').show(); 
         $('#archivoAdjuntoBtn').show(); 
-        $('#listaArchivos').show(); 
-        
+        $('#listaArchivos').show();         
 
         //Verificar que el chat exista o no en la lista chatsUsuario
         var chatSeleccionado; 
         var existeChat=false;
 
         for(let chatAct of chatsUsuario){
-          if ( (chatAct.id_transmisor.id == transmisor && chatAct.id_receptor.id == receptor ) || (chatAct.id_transmisor.id == receptor && chatAct.id_receptor.id == transmisor )) {
-            chatSeleccionado = chatAct;
-            existeChat = true;
+          if (chatAct.id_transmisor) {
+            if ( (chatAct.id_transmisor.id == transmisor && chatAct.id_receptor.id == receptor ) || (chatAct.id_transmisor.id == receptor && chatAct.id_receptor.id == transmisor )) {
+              chatSeleccionado = chatAct;
+              existeChat = true;
+            }
           }
         }//for
 
@@ -486,9 +507,15 @@
         switch (event.verb) {
           case 'created':
             //Actualizar la lista de los chat cuando se crea un nuevo chat para el usuario
-            console.log(event);
+            //console.log(event);
             if ( (transmisor == event.data.id_transmisor) || (transmisor == event.data.id_receptor) ) {
               actualizarListaChats();
+            }
+
+            for(let cursoActual of cursos){
+              if ( event.data.id_curso == cursoActual.idCurso ) {
+                actualizarListaChats();
+              }
             }
             
             break;
@@ -504,14 +531,12 @@
         //Actualizar la lista de chat del usuario
         $('#slide-out').empty();
         addEncabezadoListaChatsUsuarios();
-        var chatData = { id_transmisor : transmisor, id_receptor : receptor, id_curso:grupo };
+        var chatData = { id_transmisor : transmisor };
           io.socket.get('/chats/listchats',chatData,function(data, response) {
-
-            chatsUsuario = data.chatsIndividuales;
-            for(let chatActual of data.chatsIndividuales){
+            chatsUsuario = data.chatsUsuario;
+            for(let chatActual of data.chatsUsuario){
               addListaChatsUsuarios(chatActual);
-            }  
-
+            } 
           });//io.socket.get 
       }
 
@@ -533,7 +558,6 @@
         for(chatActual of data.chatsUsuario){
           addListaChatsUsuarios(chatActual);
         }     
-
       });//io.socket.get
 
       function mostrarMensajes(data) { 
@@ -548,15 +572,22 @@
         for(let chatActual of chatsUsuario){
           if (chatActual.id_chat == idChatSeleccionado) {
 
-            if (transmisor == chatActual.id_transmisor.id) {
+            if(chatActual.id_curso){
+              grupo = chatActual.id_curso.id_CursoEntidad;
+            }else if (transmisor == chatActual.id_transmisor.id) {
               receptor = chatActual.id_receptor.id;
             }else{
               receptor = chatActual.id_transmisor.id;
             }
-            chatSeleccionadoActual = chatActual.id_chat;
-            addMensajes(chatActual);
+            //Obtener los mensajes del chat seleccionado
+            io.socket.get('/mensajeschat/mensajes',{ id_chat:idChatSeleccionado },function(data, response) {
+              if (data) {
+                chatSeleccionadoActual = chatActual.id_chat;
+                addMensajes(data.mensajesChat);
+              } 
+            });//io.socket.get
           }
-        } 
+        }
       }//addContactos
 
       function addEncabezadoListaChatsUsuarios(){
@@ -580,7 +611,20 @@
       function addListaChatsUsuarios(data) { 
         //Agregar los chats a la lista de chats
         if (data.id_curso) {
-          console.log(data);
+          //NOTA: LA IMAGEN DE LOS CURSOS SE ENCUENTRA DE FORMA ESTÁTICA, BUSCAR LA FORMA DE HACERLA DINÁMICA
+          $("#slide-out").append('<li>'+
+                                    '<a href="#" onclick="mostrarMensajes({idChat:'+data.id_chat+'});return false;">'+
+                                      '<div class="valign-wrapper">'+
+                                         '<img src="/images/curso.png" alt="" class="circle responsive-img" width="50" height="50">'+
+                                          '<span class="black-text">'+
+                                            data.id_curso.codigo+
+                                          '</span>'+
+                                      '</div>'+
+                                    '</a>'+
+                                    '<div class="divider"></div>'+
+                                    '<div class="divider"></div>'+
+                                  '</li>');
+
         }else if (transmisor == data.id_transmisor.id) {
           $("#slide-out").append('<li>'+
                                     '<a href="#" onclick="mostrarMensajes({idChat:'+data.id_chat+'});return false;">'+

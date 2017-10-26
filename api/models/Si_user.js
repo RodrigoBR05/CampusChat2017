@@ -73,12 +73,12 @@ module.exports = {
   	},
     //El usuario envía muchos mensajes
     sentMessages:{
-      collection:'mensajes',
+      collection:'mensajeschat',
       via: 'id_transmisor'
     },
     //El usuario recibe muchos mensaje
     receivedMessages:{
-      collection: 'mensajes',
+      collection: 'mensajeschat',
       via: 'id_receptor'
     },
     //Chats
