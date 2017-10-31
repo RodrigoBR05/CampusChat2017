@@ -21,28 +21,19 @@
       <nav class="top-nav colorCampusChat">
         
         <a href="#" title="Chats" data-activates="slide-out" class="left button-collapse top-nav circle hide-on-large-only"><i class="material-icons">menu</i></a>
-        
-        <div class="nav-wrapper">
-          <ul class="right">
-           <li>
-              <a href="#" onclick="return false;" title="Imágenes" id="imagenAdjuntaBtn" style="display:none"><i class="material-icons">image</i></a>
-              <input id="imagenAdjunta" type="file" accept="image/*" style="display:none">
-            </li>
-            
-            <li>
-              <a href="#" onclick="return false;" title="Documentos" id="archivoAdjuntoBtn" style="display:none"><i class="material-icons">attach_file</i></a>
-              <input id="archivoAdjunto" type="file" accept=".pdf,.doc,.docx,.odt" style="display:none">
-            </li>
 
-            <li><a href="#archivos" title="Presiona para ver los archivos" id="listaArchivos" style="display:none" class="modal-trigger"><i class="material-icons">insert_drive_file</i></a></li>
-
-
-            <li><a href="#contactos" title="Nuevo chat" class="modal-trigger"><i class="material-icons">message</i></a></li>
-
-          </ul>
+        <div class="row">
+          <a class="modal-trigger" href="#archivos" id="infoUsuarioSeleccionado" title="Presiona para ver los archivos" style="display:none">
+            <div class="valign-wrapper">
+                <img id="imagenUsuarioSeleccionado" src="" alt="" class="circle responsive-img" width="50" height="50"> 
+                <span id="nombreUsuarioSeleccionado" class="white-text"></span>
+            </div>
+          </a>         
         </div>
                    
       </nav>
+
+      
 
       <ul id="slide-out" class="side-nav fixed">
         <!--Encabezado del usuario imagen, nombre, correo-->       
@@ -53,6 +44,24 @@
     
     
     <main>
+
+        <!--Menú de opciones envío de archivos-->
+        <div class="fixed-action-btn" id="cargaArchivos" style="display: none">
+          <a class="btn-floating white">
+            <i class="large material-icons  colorCampusChat-text">attach_file</i>
+          </a>
+          <ul>
+            <li>
+              <a class="btn-floating indigo" href="#" onclick="return false;" title="Imágenes" id="imagenAdjuntaBtn"><i class="material-icons">image</i></a>
+              <input id="imagenAdjunta" type="file" accept="image/*" style="display:none">
+            </li>
+            <li>
+              <a class="btn-floating blue" href="#" onclick="return false;" title="Documentos" id="archivoAdjuntoBtn"><i class="material-icons">insert_drive_file</i></a>
+              <input id="archivoAdjunto" type="file" accept=".pdf,.doc,.docx,.odt" style="display:none">
+            </li>
+
+          </ul>
+        </div>
 
         <div class="container center" id="logoInicio">
           <img class="responsive-img" width="650" src="/images/logo2.png">                    
@@ -184,14 +193,13 @@
     </main>
 
     <footer>
-
       <div class="container">        
         <div class="row" id="footer" style="display:none">
           <form onsubmit="return false;">
             <div class="row">
               <div class="input-field col s8 l11 offset-s1">
                 <i class="material-icons prefix">message</i>
-                <input id="mensaje" name="mensaje" id="first_name" type="text" class="validate" required placeholder="Escribe un mensaje aquí">
+                <input id="mensaje" name="mensaje" id="first_name" type="text" class="validate" required placeholder="Escribe un mensaje aquí" autocomplete="off">
               </div>
               <div class="input-field col s1 l1">
                 <button id="enviarMensajeButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
@@ -200,7 +208,6 @@
           </form>
         </div>   
       </div>
-
     </footer>
 
    <!--SCRIPTS-->
@@ -261,8 +268,9 @@
      });     
 
      function addMensajes(data) {
-
+        
         //console.log(data);
+
         $('#chatList').empty();   
 
         for(let mensajeActual of data){
@@ -307,6 +315,8 @@
         $('#logoInicio').hide(); //oculto el logo                
         $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
         $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
+        $('#cargaArchivos').show(); 
+        
         //Muestra el último mensaje
         $("#chatList").animate({scrollTop: $(this).height()+100000}, 'fast');
         $('#chatList').show(); //muestro la listas de mensajes        
@@ -372,11 +382,23 @@
 
       function newChat(data) {
 
-        //document.getElementById("imagenUsuarioSeleccionado").src = data.imagen;
-        //$("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+data.nombreCompaniero+' '+data.apellido1Companiero);
+        var  curso = data.idCurso;
+        var companiero = data.idCompaniero;
+
+        if (curso) {
+           document.getElementById("imagenUsuarioSeleccionado").src = "/images/curso.png";
+           $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+data.nombreClase);
+
+        }else if (companiero) {
+          document.getElementById("imagenUsuarioSeleccionado").src = data.imagen;
+          $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+data.nombreCompaniero+' '+data.apellido1Companiero);
+        }
+
         $('#chatList').empty();  
         $('#logoInicio').hide(); //oculto el logo                
         $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
+        $('#cargaArchivos').show(); 
+        $('#infoUsuarioSeleccionado').show();                               
         $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
         //Muestra el último mensaje
         $("#chatBody").animate({scrollTop: $(this).height()+100000}, 'fast');
@@ -417,7 +439,7 @@
               for(let cursoActual of cursos){
                 if ( cursoActual.idCurso == data.id_curso ) {
                   chatSeleccionadoActual = data.id_chat;
-                  newChat(chatSeleccionadoActual);
+                  newChat(cursoActual);
                   break;
                 }
               }
@@ -461,7 +483,7 @@
         //Se cierra el modal de los contactos del usuario
         $('#contactos').modal('close');  
         $('#imagenAdjuntaBtn').show(); 
-        $('#archivoAdjuntoBtn').show(); 
+        $('#cargaArchivos').show(); 
         $('#listaArchivos').show();         
 
         //Verificar que el chat exista o no en la lista chatsUsuario
@@ -560,6 +582,27 @@
         }     
       });//io.socket.get
 
+      function addEncabezadoChat(data){
+
+
+        var grupo = data.id_curso;
+        var usuarioTransmisorChat = data.id_transmisor;
+        var usuarioReceptorChat =  data.id_receptor;
+
+        if (grupo) {
+          document.getElementById("imagenUsuarioSeleccionado").src = "/images/curso.png";
+          $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+grupo.codigo);
+        }else if (transmisor == usuarioTransmisorChat.id) {
+          document.getElementById("imagenUsuarioSeleccionado").src = usuarioReceptorChat.imagen;
+          $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuarioReceptorChat.name+' '+usuarioReceptorChat.last_name);
+        }else{
+          document.getElementById("imagenUsuarioSeleccionado").src = usuarioTransmisorChat.imagen;
+          $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuarioTransmisorChat.name+' '+usuarioTransmisorChat.last_name);
+        }
+        $('#infoUsuarioSeleccionado').show();         
+
+      }//addEncabezadoChat
+
       function mostrarMensajes(data) { 
         $('#imagenAdjuntaBtn').show(); 
         $('#archivoAdjuntoBtn').show(); 
@@ -579,6 +622,7 @@
             }else{
               receptor = chatActual.id_transmisor.id;
             }
+            addEncabezadoChat(chatActual);
             //Obtener los mensajes del chat seleccionado
             io.socket.get('/mensajeschat/mensajes',{ id_chat:idChatSeleccionado },function(data, response) {
               if (data) {
@@ -594,15 +638,18 @@
         //Agrega el encabezado de la lista de chats                 
         $('#slide-out').empty();        
         $("#slide-out").append('<li>'+
-                                  '<nav class="top-nav  colorCampusChat">'+
+                                  '<nav class="top-nav colorCampusChat">'+
                                     '<div class="row">'+
-                                      '<div class="valign-wrapper col s12 m12 l9 xl9 offset-s1 offset-m1 offset-l1 offset-xl1">'+
+                                      '<div class="valign-wrapper col s8 m8 l8 xl8 offset-s1 offset-m1 offset-l1 offset-xl1">'+
                                           '<img title=" " src="<%= session.user.imagen  %>" alt="" class="circle responsive-img" width="50" height="50"> '+
-                                          '<span id="nombreUsuarioSeleccionado" class="white-text"><b>&nbsp;<%= session.user.name  %> <%= session.user.last_name.substr(0,1)%></b></span>'+
-                                      '</div>'+                      
+                                          '<span id="nombreUsuarioSeleccionado" class="white-text"><b>&nbsp;<%= session.user.name.substr(0,11)  %> <%= session.user.last_name.substr(0,1)%></b></span>'+
+                                      '</div>'+
+                                     '</div>'+                       
                                   '</nav>'+
-                                  '<div class="divider"></div>'+
-
+                                '</li>'+
+                                '<li>'+
+                                    '<a href="#contactos" title="Nuevo chat" class="btn colorCampusChat modal-trigger" type="submit" name="action">Contactos'+
+                                    '</a>'+
                                 '</li>'
                                 );                               
       }//addEncabezadoListaChatsUsuarios
