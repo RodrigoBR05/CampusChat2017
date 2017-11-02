@@ -10,12 +10,14 @@ module.exports = {
 
 	create:function(req,res){
 
+        //GRAN PROBLEMA, LIMPIAR LAS VARIABLES RECEPTOR Y GRUPO, DESPUES DE SELECCIONADO
 
         var mensaje = req.param('contenido');
         var transmisor = req.param('id_transmisor');
         var receptor = req.param('id_receptor');
         var grupo = req.param('id_grupo');
         var chat = req.param('id_chat');
+        var archivoAdjunto = req.param('file');
 
         //var adjunto = req.file('adjunto');
         //var socketId = sails.sockets.getId(req);
@@ -25,21 +27,8 @@ module.exports = {
         console.log(receptor);
         console.log(grupo);
         console.log(chat);
-
-
-
-        /*
-        //La carga de archivos funciona utilizando POSMAN, analizar la forma de carga file en javascript
-        req.file('adjunto').upload({
-          dirname: require('path').resolve(sails.config.appPath, 'assets/images')
-        },function (err, uploadedFiles) {
-          if (err) return res.negotiate(err);
-          //return res.json({
-            //message: uploadedFiles.length + ' file(s) uploaded successfully!'
-          //});
-        });
-        */
-
+        console.log(archivoAdjunto);
+        
         //Crear el mensaje
         if (receptor) { 
 
@@ -116,6 +105,33 @@ module.exports = {
 		      });       	
         }//if
 
+    }, 
+
+    uploadFile: function(req,res){
+        //La carga de archivos funciona utilizando POSMAN, analizar la forma de carga file en javascript
+        var imagen = req.param('imagen');
+        var archivo = req.param('archivo');
+
+        if (imagen) {
+            req.file('file').upload({
+              dirname: require('path').resolve(sails.config.appPath, 'assets/imagesCC')
+            },function (err, uploadedFiles) {
+              if (err) return res.negotiate(err);
+              res.json({
+                files: uploadedFiles
+              });
+            });
+        }else if (archivo) {
+            req.file('file').upload({
+              dirname: require('path').resolve(sails.config.appPath, 'assets/documentsCC')
+            },function (err, uploadedFiles) {
+              if (err) return res.negotiate(err);
+              res.json({
+                files: uploadedFiles
+              });
+            });
+        }
+        
     }
 	
 };

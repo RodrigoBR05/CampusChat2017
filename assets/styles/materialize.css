@@ -2659,7 +2659,7 @@ i.small {
 }
 
 i.medium {
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 i.large {
@@ -5683,7 +5683,7 @@ button.btn-floating {
   border-radius: 0 0 2px 2px;
   background-color: #fafafa;
   padding: 4px 6px;
-  height: 56px;
+  height: 130px;
   width: 100%;
   text-align: right;
 }

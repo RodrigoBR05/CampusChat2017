@@ -67,18 +67,87 @@
           <img class="responsive-img" width="650" src="/images/logo2.png">                    
         </div>
         
-        <div id="chatBody" class="row">
+        <div id="chatBody" class="row"> 
           <ul class="collection contenedorChat" id="chatList"></ul>
         </div>
+        
+        <!--***************************MODAL PARA EL ENVÍO DE ARCHIVOS*****************************-->
+        <!-- Modal Structure enviarArchivos-->
+        <div id="enviarArchivosModal" class="modal modal-fixed-footer">
+          <div class="modal-content">
+            <div class="row valign-wrapper">
+              <i id="cerrarModalArchivosSeleccionados" class="modal-action modal-close material-icons" title="Cerrar">close</i>
+              <span style="font-size: 2.28rem">&nbsp&nbspVista Previa</span>
+            </div>
+
+            <div class="row center">
+              <div class="col s12">
+                <span id="tituloArchivoSeleccionado"></span>                                               
+              </div>
+              <img id="imagenArchivoSeleccionado" src="" alt="" class="responsive-img">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="container">
+
+            <div class="row">
+                <form action="/mensajeschat/uploadFile" enctype="multipart/form-data" method="POST" id="mensajesConArchivosForm" name="mensajesConArchivosForm">
+                  <div class="row">
+                    <div class="input-field col s8 l10 offset-s1">
+                      <i class="material-icons prefix">message</i>
+                      <input id="mensajeCAMBIAR" name="mensajeCAMBIAR" type="text" class="validate" placeholder=" Escribe un comentario aquí" autocomplete="off">
+                      <input type="file" name="avatar" multiple="multiple"><br>
+                    </div>
+                    <div class="input-field col s1 l1">
+                      <button id="enviarMensajeConArchivoButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
+                    </div>
+                  </div>
+                </form>
+              </div> 
+              
+            <!--
+
+            <div class="row">
+                <form enctype="multipart/form-data" method="POST" onsubmit="return false;" id="mensajesConArchivosForm" name="mensajesConArchivosForm">
+                  <div class="row">
+                    <div class="input-field col s8 l10 offset-s1">
+                      <i class="material-icons prefix">message</i>
+                      <input id="mensaje" name="mensaje" type="text" class="validate" placeholder=" Escribe un comentario aquí" autocomplete="off">
+                    </div>
+                    <div class="input-field col s1 l1">
+                      <button id="enviarMensajeConArchivoButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
+                    </div>
+                  </div>
+                </form>
+              </div> 
+              <div class="row">
+                <form enctype="multipart/form-data" method="POST" onsubmit="return false;" id="mensajesConArchivosForm" name="mensajesConArchivosForm">
+                  <div class="row">
+                    <div class="input-field col s8 l10 offset-s1">
+                      <i class="material-icons prefix">message</i>
+                      <input id="mensaje" name="mensaje" type="text" class="validate" placeholder=" Escribe un comentario aquí" autocomplete="off">
+                    </div>
+                    <div class="input-field col s1 l1">
+                      <button id="enviarMensajeConArchivoButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
+                    </div>
+                  </div>
+                </form>
+              </div> 
+
+              --> 
+            </div> 
+          </div>
+        </div>
+        <!--**********************FINAL MODAL PARA EL ENVÍO DE ARCHIVOS*****************************-->
+
 
         <!-- Modal Structure -->
         <div id="contactos" class="modal modal-fixed-footer">
           <div class="modal-content">
-            <div class="row center">
-                <div class="col s12">
-                  <h4>Contactos</h4>                  
-                </div>
-              </div>
+            <div class="row valign-wrapper">
+              <i class="modal-action modal-close material-icons" title="Cerrar">close</i>
+              <span style="font-size: 2.28rem">&nbsp&nbspContactos</span>
+            </div>
               <ul class="collection" id="contactosList">
                 
               </ul>
@@ -88,11 +157,13 @@
         <!-- Estructura del modal de archivos del usuario-->
          <div id="archivos" class="modal bottom-sheet">
             <div class="modal-content">
-              <div class="row center">
-                <div class="col s12">
-                  <h4>Multimedia y documentos</h4>                  
+              <div class="container">                
+                <div class="row valign-wrapper">
+                  <i class="modal-action modal-close material-icons" title="Cerrar">close</i>
+                  <span style="font-size: 2.28rem">&nbsp&nbspMultimedia y documentos</span>
                 </div>
               </div>
+
               <div class="container">                
               
                 <div class="row">
@@ -239,8 +310,8 @@
      //Variables     
      //Usuarios
      var transmisor = '<%= session.user.id  %>';
-     var receptor;
-     var grupo;
+     var receptor = null;
+     var grupo = null;
 
      var cursos;
      var usuariosReceptores;
@@ -250,8 +321,12 @@
      var peticion = '/mensajes/mensajes';          
      //Botones
      var enviarMensajeButton = document.querySelector('#enviarMensajeButton'); 
+     var enviarMensajeConArchivoButton = document.querySelector('#enviarMensajeConArchivoButton');    
      var adjuntarImagen = document.querySelector('#imagenAdjuntaBtn');
-     var adjuntarArchivo = document.querySelector('#archivoAdjuntoBtn');     
+     var adjuntarArchivo = document.querySelector('#archivoAdjuntoBtn');
+     var imagenAdjuntaInput = document.querySelector('#imagenAdjunta');
+     var archivoAdjuntoInput = document.querySelector('#archivoAdjunto'); 
+     var cerrarModalArchivosSel = document.querySelector('#cerrarModalArchivosSeleccionados');    
 
      //Cuerpo del mensaje
      var mensaje = document.querySelector('#mensaje');
@@ -266,6 +341,50 @@
      adjuntarArchivo.addEventListener('click', function(e){
         $("#archivoAdjunto").click();
      });     
+
+    cerrarModalArchivosSel.addEventListener('click', function(e){
+        reiniciarInputsArchivos();
+     }); 
+
+    function reiniciarInputsArchivos(){
+      var $fileImagenAdj = $('#imagenAdjunta');
+      $fileImagenAdj.wrap('<form>').closest('form').get(0).reset();
+      $fileImagenAdj.unwrap();
+      var $filearchivoAdj = $('#archivoAdjunto');
+      $filearchivoAdj.wrap('<form>').closest('form').get(0).reset();
+      $filearchivoAdj.unwrap();
+    }
+
+     function mostrarArchivo(evt) {
+
+        var files = evt.target.files; // FileList object
+
+        if (files[0].type.match('image.*')) {
+          $("#tituloArchivoSeleccionado").html(files[0].name); 
+          $('#tituloArchivoSeleccionado').hide(); //oculto el título               
+
+          var reader = new FileReader();             
+          reader.onload = (function(theFile) {
+             return function(e) {
+             // Creamos la imagen.
+             document.getElementById("imagenArchivoSeleccionado").src = e.target.result;
+
+             };
+          })(files[0]);
+
+          reader.readAsDataURL(files[0]);                  
+        }else{
+          $("#tituloArchivoSeleccionado").html(files[0].name);
+          $('#tituloArchivoSeleccionado').show();             
+          document.getElementById("imagenArchivoSeleccionado").src = '/images/file.png';
+        }
+
+        $('#enviarArchivosModal').modal('open');                                   
+     }//mostrarArchivo
+
+     //Carga de archivos
+     imagenAdjuntaInput.addEventListener('change', mostrarArchivo, false);
+     archivoAdjuntoInput.addEventListener('change', mostrarArchivo, false);
 
      function addMensajes(data) {
         
@@ -456,10 +575,75 @@
       });   
 
 
+      enviarMensajeConArchivoButton.addEventListener('click', function(e){
+
+        e.preventDefault();
+        var formData = new FormData(document.getElementById("mensajesConArchivosForm"));
+
+        //Verificar que el input file de imagen o documento exista
+        var imagenAdjunta = document.getElementById('imagenAdjunta').files.length;  
+        var archivoAdjunto = document.getElementById('archivoAdjunto').files.length;  
+
+        if( (imagenAdjunta == 1) && (archivoAdjunto == 0) ){
+          console.log('Voy a enviar imagen');
+          formData.append("imagen", "1");
+          formData.append("file", document.getElementById("imagenAdjunta").files[0]);
+        }else if ((imagenAdjunta == 0) && (archivoAdjunto == 1) ) {
+          formData.append("archivo", "1");
+          formData.append("file", document.getElementById("archivoAdjunto").files[0]);
+        }
+
+        $.ajax({
+            url: "/mensajeschat/uploadFile",
+            type: "post",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(fileRes){
+              if (fileRes) {
+
+                reiniciarInputsArchivos();
+                /*
+                let ubicacion = fileRes.files[0].fd.substr(69);
+                let nombreArchivo = fileRes.files[0].filename;
+                let tipoArchivo = fileRes.files[0].type;
+
+
+                console.log('La ubicación del archivo es:'+ubicacion+' ,el nombre es: '+nombreArchivo+' ,y el tipo de archivo es: '+tipoArchivo);
+                */
+
+                var data = {
+                  contenido: mensaje.value,
+                  id_transmisor: transmisor,
+                  id_receptor: receptor,
+                  id_grupo: grupo,
+                  id_chat: chatSeleccionadoActual,
+                  file: fileRes
+                }
+
+                  //Guardar los mensajes en la BD, persistencia
+                io.socket.post('/mensajeschat', data, function(data, response) {
+                  //mensaje.value = null;
+                });
+
+                //Se cierra el modal de los visualizar archivos
+                $('#enviarArchivosModal').modal('close'); 
+              }             
+
+            },            
+            error: function (){ // Si hay algún error.
+              alert("Algo ha fallado.");
+            }
+        });
+
+      });
+
+
      /*FALTA IMPLEMENTAR EL ENVÍO DE MENSAJES*/
      /****************************************/ 
      enviarMensajeButton.addEventListener('click', function(e){
-        console.log(grupo);
+
         if (mensaje.value) {
           var data = {
             contenido: mensaje.value,
@@ -604,6 +788,8 @@
       }//addEncabezadoChat
 
       function mostrarMensajes(data) { 
+        receptor = null;
+        grupo = null;
         $('#imagenAdjuntaBtn').show(); 
         $('#archivoAdjuntoBtn').show(); 
         $('#listaArchivos').show(); 
@@ -648,7 +834,7 @@
                                   '</nav>'+
                                 '</li>'+
                                 '<li>'+
-                                    '<a href="#contactos" title="Nuevo chat" class="btn colorCampusChat modal-trigger" type="submit" name="action">Contactos'+
+                                    '<a href="#contactos" title="Nuevo chat" class="btn colorCampusChat modal-trigger" type="submit" name="action"><i class="material-icons right white-text">person</i>Contactos'+
                                     '</a>'+
                                 '</li>'
                                 );                               
