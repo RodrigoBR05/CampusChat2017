@@ -1,14 +1,13 @@
 /**
- * Mensajeschat.js
+ * Adjuntochat.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-
 module.exports = {
-  
-  //Eliminar configuraciones por defecto
+
+   //Eliminar configuraciones por defecto
   autoPK: false,
   autoCreatedAt: false,
   autoUpdatedAt: false,
@@ -16,35 +15,35 @@ module.exports = {
 
   attributes: {
 
-  	id_mensaje: {
+  	id_adjunto_chat: {
   	  type: 'integer',
       autoIncrement: true,
       primaryKey: true
   	},
 
-  	contenido: {
+  	ubicacion: {
   		type: 'text'
   	},
 
-  	id_transmisor: {
-  		model: 'si_user'
+  	nombre_archivo: {
+  		type: 'text'
   	},
 
-  	id_receptor: {
-  		model: 'si_user'
+  	tipo_archivo: {
+  		type: 'text'
   	},
 
-  	id_curso: {
-  		model: 'cursoentidad'		
+  	descripcion: {
+  		type: 'text'
   	},
 
-    id_chat: {
+  	id_chat: {
       model: 'chats'   
     },
 
-    id_adjunto_chat: {
-      model: 'adjuntochat'   
-    },
+  	id_transmisor: {
+  		model: 'si_user'
+  	},    
 
     fecha_envio:{
       type: 'datetime',
@@ -57,3 +56,4 @@ module.exports = {
 
   }
 };
+

@@ -4725,7 +4725,7 @@ small {
 }
 
 .card .card-title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 300;
 }
 
@@ -5991,16 +5991,16 @@ label {
    ========================================================================== */
 /* Style Placeholders */
 ::-webkit-input-placeholder {
-  color: #d1d1d1;
+  color: #333333;
 }
 ::-moz-placeholder {
-  color: #d1d1d1;
+  color: #333333;
 }
 :-ms-input-placeholder {
-  color: #d1d1d1;
+  color: #333333;
 }
 ::placeholder {
-  color: #d1d1d1;
+  color: #333333;
 }
 
 /* Text inputs */

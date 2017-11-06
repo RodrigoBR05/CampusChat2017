@@ -19,70 +19,145 @@ module.exports = {
         var chat = req.param('id_chat');
         var archivoAdjunto = req.param('file');
 
-        //var adjunto = req.file('adjunto');
-        //var socketId = sails.sockets.getId(req);
-        //console.log(socketId);
+        /*
+        //Verificacion
         console.log(mensaje);
         console.log(transmisor);
         console.log(receptor);
         console.log(grupo);
         console.log(chat);
         console.log(archivoAdjunto);
-        
-        //Crear el mensaje
-        if (receptor) { 
+        */
 
-            Mensajeschat.create({contenido: mensaje,id_transmisor: transmisor,id_receptor:receptor, id_chat: chat}).exec(function(err, records){
-                if (err) { return res.serverError(err);}
-                //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
-                Mensajeschat.findOne(records.id_mensaje).populate('id_transmisor').populate('id_receptor').populate('id_chat').exec(function(err, message){
-                    if (err) {return res.serverError(err)};
-                    if (!message) {
-                        return res.notFound('No se encontró el registro');
-                    }
 
-                    var fechaActualizacion = new Date();
-                    Chats.update( {id_chat: records.id_chat },{fecha_actualizacion:fechaActualizacion}).exec(function(err, chat){
+        if (archivoAdjunto) {
+            let ubicacion = archivoAdjunto.files[0].fd.substr(69);
+            let nombreArchivo = archivoAdjunto.files[0].filename;
+            let tipoArchivo = archivoAdjunto.files[0].type;
+
+            //Crear el mensaje
+            if (receptor) { 
+
+                Adjuntochat.create({ubicacion: ubicacion,nombre_archivo: nombreArchivo,tipo_archivo:tipoArchivo, descripcion: mensaje,id_chat: chat,id_transmisor: transmisor}).exec(function(err, records){
+                    if (err) { return res.serverError(err);}
+
+                    Mensajeschat.create({contenido: mensaje,id_transmisor: transmisor,id_receptor:receptor, id_chat: chat, id_adjunto_chat: records.id_adjunto_chat}).exec(function(err, mensaje){
+                        if (err) { return res.serverError(err);}
+                        //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
+                        Mensajeschat.findOne(mensaje.id_mensaje).populate('id_transmisor').populate('id_receptor').populate('id_chat').exec(function(err, message){
+                            if (err) {return res.serverError(err)};
+                            if (!message) {
+                                return res.notFound('No se encontró el registro');
+                            }
+
+                            var fechaActualizacion = new Date();
+                            Chats.update( {id_chat: mensaje.id_chat },{fecha_actualizacion:fechaActualizacion}).exec(function(err, chat){
+                                if (err) {return res.serverError(err)};
+                                if (!chat) {
+                                    return res.notFound('No se encontró el registro');
+                                }
+                                
+                                //Notifico el nuevo mensaje al usuario receptor
+                                sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
+                                res.json(message);
+
+                            });     
+
+                        });      
+                    });
+
+                });
+
+
+            }else if (grupo) {
+                Adjuntochat.create({ubicacion: ubicacion,nombre_archivo: nombreArchivo,tipo_archivo:tipoArchivo, descripcion: mensaje,id_chat: chat,id_transmisor: transmisor}).exec(function(err, records){
+                    if (err) { return res.serverError(err);}
+
+                    Mensajeschat.create({contenido: mensaje,id_transmisor: transmisor,id_curso:grupo, id_chat: chat, id_adjunto_chat: records.id_adjunto_chat}).exec(function(err, mensaje){
+                        if (err) { return res.serverError(err);}
+                        //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
+                        Mensajeschat.findOne(mensaje.id_mensaje).populate('id_transmisor').populate('id_curso').populate('id_chat').exec(function(err, message){
+                            if (err) {return res.serverError(err)};
+                            if (!message) {
+                                return res.notFound('No se encontró el registro');
+                            }
+
+                            var fechaActualizacion = new Date();
+                            Chats.update( {id_chat: records.id_chat },{fecha_actualizacion:fechaActualizacion}).exec(function(err, chat){
+                                if (err) {return res.serverError(err)};
+                                if (!chat) {
+                                    return res.notFound('No se encontró el registro');
+                                }
+                                
+                                //Notifico el nuevo mensaje al usuario receptor
+                                sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
+                                res.json(message);
+
+                            });     
+
+                        });      
+                    });
+                });
+            }
+
+        }else{       
+
+            //Crear el mensaje
+            if (receptor) { 
+
+                Mensajeschat.create({contenido: mensaje,id_transmisor: transmisor,id_receptor:receptor, id_chat: chat}).exec(function(err, records){
+                    if (err) { return res.serverError(err);}
+                    //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
+                    Mensajeschat.findOne(records.id_mensaje).populate('id_transmisor').populate('id_receptor').populate('id_chat').exec(function(err, message){
                         if (err) {return res.serverError(err)};
-                        if (!chat) {
+                        if (!message) {
                             return res.notFound('No se encontró el registro');
                         }
-                        
-                        //Notifico el nuevo mensaje al usuario receptor
-                        sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
-                        res.json(message);
 
-                    });     
+                        var fechaActualizacion = new Date();
+                        Chats.update( {id_chat: records.id_chat },{fecha_actualizacion:fechaActualizacion}).exec(function(err, chat){
+                            if (err) {return res.serverError(err)};
+                            if (!chat) {
+                                return res.notFound('No se encontró el registro');
+                            }
+                            
+                            //Notifico el nuevo mensaje al usuario receptor
+                            sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
+                            res.json(message);
 
-                });      
-            });
+                        });     
 
-        }else if (grupo) {
-            Mensajeschat.create({contenido: mensaje,id_transmisor: transmisor,id_curso:grupo, id_chat: chat}).exec(function(err, records){
-                if (err) { return res.serverError(err);}
-                //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
-                Mensajeschat.findOne(records.id_mensaje).populate('id_transmisor').populate('id_curso').populate('id_chat').exec(function(err, message){
-                    if (err) {return res.serverError(err)};
-                    if (!message) {
-                        return res.notFound('No se encontró el registro');
-                    }
+                    });      
+                });
 
-                    var fechaActualizacion = new Date();
-                    Chats.update( {id_chat: records.id_chat },{fecha_actualizacion:fechaActualizacion}).exec(function(err, chat){
+            }else if (grupo) {
+                Mensajeschat.create({contenido: mensaje,id_transmisor: transmisor,id_curso:grupo, id_chat: chat}).exec(function(err, records){
+                    if (err) { return res.serverError(err);}
+                    //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
+                    Mensajeschat.findOne(records.id_mensaje).populate('id_transmisor').populate('id_curso').populate('id_chat').exec(function(err, message){
                         if (err) {return res.serverError(err)};
-                        if (!chat) {
+                        if (!message) {
                             return res.notFound('No se encontró el registro');
                         }
-                        
-                        //Notifico el nuevo mensaje al usuario receptor
-                        sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
-                        res.json(message);
 
-                    });     
+                        var fechaActualizacion = new Date();
+                        Chats.update( {id_chat: records.id_chat },{fecha_actualizacion:fechaActualizacion}).exec(function(err, chat){
+                            if (err) {return res.serverError(err)};
+                            if (!chat) {
+                                return res.notFound('No se encontró el registro');
+                            }
+                            
+                            //Notifico el nuevo mensaje al usuario receptor
+                            sails.sockets.broadcast(message.id_chat.nombre_chat, 'new_message', message);                    
+                            res.json(message);
 
-                });      
-            });
-        }
+                        });     
+
+                    });      
+                });
+            }
+
+        }//else externo
     },
 
     mensajes:function(req,res){        
@@ -97,12 +172,24 @@ module.exports = {
 	            if (!mensajes) {
 	              return res.notFound('No existen registros de mensajes.');
 	            }
-	            //Retorna todos los mensajes correspondientes al chat seleccionado
-	            res.json({
-				    mensajesChat : mensajes
-				});
 
-		      });       	
+                //Recopilo los chat individuales del usuario
+                Adjuntochat.find({id_chat: idChat , sort: 'fecha_envio ASC'}).populate('id_transmisor').exec(function (err, adjuntos){
+                    if (err) {
+                      return res.serverError(err);
+                    }
+                    if (!adjuntos) {
+                      return res.notFound('No existen registros de adjuntos.');
+                    }
+
+                    //Retorna todos los mensajes y adjuntos correspondientes al chat seleccionado
+                    res.json({
+                        mensajesChat : mensajes, 
+                        adjuntosChat : adjuntos
+                    });
+
+                });//find Adjuntochat 
+		    });       	
         }//if
 
     }, 

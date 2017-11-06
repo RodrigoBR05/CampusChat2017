@@ -53,11 +53,11 @@
           <ul>
             <li>
               <a class="btn-floating indigo" href="#" onclick="return false;" title="Imágenes" id="imagenAdjuntaBtn"><i class="material-icons">image</i></a>
-              <input id="imagenAdjunta" type="file" accept="image/*" style="display:none">
+              <input id="imagenAdjunta" type="file" accept="image/png, image/jpeg" style="display:none">
             </li>
             <li>
               <a class="btn-floating blue" href="#" onclick="return false;" title="Documentos" id="archivoAdjuntoBtn"><i class="material-icons">insert_drive_file</i></a>
-              <input id="archivoAdjunto" type="file" accept=".pdf,.doc,.docx,.odt" style="display:none">
+              <input id="archivoAdjunto" type="file" accept=".pdf,.doc,.docx,.odt,.xls, .xlsx, .ods" style="display:none">
             </li>
 
           </ul>
@@ -68,7 +68,7 @@
         </div>
         
         <div id="chatBody" class="row"> 
-          <ul class="collection contenedorChat" id="chatList"></ul>
+          <ul class="collection contenedorChat" id="chatList" style="background-color: rgba(0, 0, 0, 0)"></ul>
         </div>
         
         <!--***************************MODAL PARA EL ENVÍO DE ARCHIVOS*****************************-->
@@ -95,37 +95,7 @@
                   <div class="row">
                     <div class="input-field col s8 l10 offset-s1">
                       <i class="material-icons prefix">message</i>
-                      <input id="mensajeCAMBIAR" name="mensajeCAMBIAR" type="text" class="validate" placeholder=" Escribe un comentario aquí" autocomplete="off">
-                      <input type="file" name="avatar" multiple="multiple"><br>
-                    </div>
-                    <div class="input-field col s1 l1">
-                      <button id="enviarMensajeConArchivoButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
-                    </div>
-                  </div>
-                </form>
-              </div> 
-              
-            <!--
-
-            <div class="row">
-                <form enctype="multipart/form-data" method="POST" onsubmit="return false;" id="mensajesConArchivosForm" name="mensajesConArchivosForm">
-                  <div class="row">
-                    <div class="input-field col s8 l10 offset-s1">
-                      <i class="material-icons prefix">message</i>
-                      <input id="mensaje" name="mensaje" type="text" class="validate" placeholder=" Escribe un comentario aquí" autocomplete="off">
-                    </div>
-                    <div class="input-field col s1 l1">
-                      <button id="enviarMensajeConArchivoButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
-                    </div>
-                  </div>
-                </form>
-              </div> 
-              <div class="row">
-                <form enctype="multipart/form-data" method="POST" onsubmit="return false;" id="mensajesConArchivosForm" name="mensajesConArchivosForm">
-                  <div class="row">
-                    <div class="input-field col s8 l10 offset-s1">
-                      <i class="material-icons prefix">message</i>
-                      <input id="mensaje" name="mensaje" type="text" class="validate" placeholder=" Escribe un comentario aquí" autocomplete="off">
+                      <input id="mensajeAdjunto" name="mensajeAdjunto" type="text" class="validate" placeholder=" Escribe un comentario aquí..." autocomplete="off">
                     </div>
                     <div class="input-field col s1 l1">
                       <button id="enviarMensajeConArchivoButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
@@ -134,7 +104,6 @@
                 </form>
               </div> 
 
-              --> 
             </div> 
           </div>
         </div>
@@ -176,87 +145,10 @@
                 </div>
 
                 
-                  <div id="multimedia" class="row">
-                    <div class="col s2">
-                      <img src="/images/natu1.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu2.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu3.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu4.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu5.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu6.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu7.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu8.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu1.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu2.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu3.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu4.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu5.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu6.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu7.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/natu8.jpg" alt="" class="responsive-img">
-                    </div>
-                  </div>
+                <div id="multimedia" class="row"> </div>
 
-                  <div id="documentos" class="row">
-                    <div class="col s2">
-                      <img src="/images/docx.png" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/pdf.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/xls.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/docx.png" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/pdf.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/xls.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/docx.png" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/pdf.jpg" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s2">
-                      <img src="/images/xls.jpg" alt="" class="responsive-img">
-                    </div>
-                    
-                  </div>
+                <div id="documentos" class="row"> </div>
+
               </div>
             </div>
           </div>
@@ -270,7 +162,7 @@
             <div class="row">
               <div class="input-field col s8 l11 offset-s1">
                 <i class="material-icons prefix">message</i>
-                <input id="mensaje" name="mensaje" id="first_name" type="text" class="validate" required placeholder="Escribe un mensaje aquí" autocomplete="off">
+                <input id="mensaje" name="mensaje" type="text" class="validate" required placeholder="Escribe un mensaje aquí..." autocomplete="off">
               </div>
               <div class="input-field col s1 l1">
                 <button id="enviarMensajeButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons colorCampusChat">send</i></button>
@@ -297,12 +189,8 @@
        $('.modal').modal();
        //Appending HTML5 Audio Tag in HTML Body
        $('<audio id="chatAudio"><source src="/sound/notificacion.mp3" type="audio/mpeg"></audio>').appendTo('body');
+       setTimeout(function(){document.getElementById('mensaje').focus()}, 10);
      });
-   </script>
-
-   <script>
-     
-
    </script>
 
    <script>
@@ -390,20 +278,20 @@
         
         //console.log(data);
 
-        $('#chatList').empty();   
+        $('#chatList').empty(); 
 
         for(let mensajeActual of data){
           if (mensajeActual.id_curso) {
             if (transmisor == mensajeActual.id_transmisor.id) {             
 
-              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
                                   '<img title="'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'"src="'+mensajeActual.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
                                   '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
                                   '</p>'+
                                 '</li>'); 
 
             }else{
-              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
                                   '<img title="'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'"src="'+mensajeActual.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
                                   '<p class="mensajeReceptor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
                                   '</p>'+
@@ -414,14 +302,14 @@
 
             if (transmisor == mensajeActual.id_transmisor.id) {             
 
-              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
                                   '<img title="'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'"src="'+mensajeActual.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
                                   '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
                                   '</p>'+
                                 '</li>'); 
 
             }else{
-              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
                                   '<img title="'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'"src="'+mensajeActual.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
                                   '<p class="mensajeReceptor" title="'+formatoFechaMensajes(mensajeActual.fecha_envio)+'"><b>'+mensajeActual.id_transmisor.name+' '+mensajeActual.id_transmisor.last_name+' '+mensajeActual.id_transmisor.last_name2+'</b><br>'+mensajeActual.contenido+
                                   '</p>'+
@@ -452,14 +340,14 @@
             
             if (transmisor == data.id_transmisor.id) {             
 
-              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
                                   '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
                                   '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
                                   '</p>'+
                                 '</li>'); 
 
             }else{
-              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
                                   '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
                                   '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
                                   '</p>'+
@@ -470,14 +358,14 @@
           }else{
             if (transmisor == data.id_transmisor.id) {             
 
-              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
                                   '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
                                   '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
                                   '</p>'+
                                 '</li>'); 
 
             }else{
-              $("#chatList").append('<li class="collection-item valign-wrapper col s12">'+
+              $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
                                   '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
                                   '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
                                   '</p>'+
@@ -499,6 +387,82 @@
         }        
       }//addMensaje
 
+
+      /*EN IMPLEMENTACIÓN LA CARGA DE ADJUNTOS EN EL CHAT*/
+
+      function addAdjuntos(data){
+        $('#multimedia').empty();
+        $('#documentos').empty();        
+
+        for(let adjuntoActual of data){
+          let extension = adjuntoActual.nombre_archivo;
+
+          if (extension.match(/\.(jpg)|(jpeg)|(png)|(JPG)|(JPEG)|(PNG)$/) ) {
+            $("#multimedia").append('<div class="col s6 m4 l2 xl2">'+
+                                    '<div class="card">'+
+                                      '<div class="card-image">'+
+                                        '<img src="'+adjuntoActual.ubicacion+'"alt="">'+
+                                        '<a href="'+adjuntoActual.ubicacion+'" class="btn-floating halfway-fab colorCampusChat" title="Descargar" download><i class="material-icons">file_download</i></a>'+
+                                      '</div>'+
+                                      '<div class="card-content">'+
+                                        '<span class="card-title truncate">'+adjuntoActual.nombre_archivo+'</span>'+
+                                        '<p class="truncate">'+adjuntoActual.descripcion+'</p>'+
+                                      '</div>'+
+                                    '</div>'+
+                                  '</div>'); 
+          }else{
+            if (extension.match(/\.(pdf)|(PDF)$/) ) {
+              $("#documentos").append('<div class="col s6 m4 l2 xl2">'+
+                                        '<div class="card">'+
+                                          '<div class="card-image">'+
+                                            '<img src="/images/pdf_cc.png" alt="">'+
+                                            '<a href="'+adjuntoActual.ubicacion+'"class="btn-floating halfway-fab colorCampusChat" title="Descargar" download><i class="material-icons">file_download</i></a>'+
+                                          '</div>'+
+                                          '<div class="card-content">'+
+                                            '<span class="card-title truncate">'+adjuntoActual.nombre_archivo+'</span>'+
+                                            '<p class="truncate">'+adjuntoActual.descripcion+'</p>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>');
+            }else if (extension.match(/\.(doc)|(docx)|(odt)|(DOC)|(DOCX)|(ODT)$/)) {
+              $("#documentos").append('<div class="col s6 m4 l2 xl2">'+
+                                        '<div class="card">'+
+                                          '<div class="card-image">'+
+                                            '<img src="/images/doc_cc.png" alt="">'+
+                                            '<a href="'+adjuntoActual.ubicacion+'"class="btn-floating halfway-fab colorCampusChat" title="Descargar" download><i class="material-icons">file_download</i></a>'+
+                                          '</div>'+
+                                          '<div class="card-content">'+
+                                            '<span class="card-title truncate">'+adjuntoActual.nombre_archivo+'</span>'+
+                                            '<p class="truncate">'+adjuntoActual.descripcion+'</p>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>');
+            }else if (extension.match(/\.(xls)|(xlsx)|(ods)|(XLS)|(XLSX)|(ODS)$/)){
+              $("#documentos").append('<div class="col s6 m4 l2 xl2">'+
+                                        '<div class="card">'+
+                                          '<div class="card-image">'+
+                                            '<img src="/images/xls_cc.png" alt="">'+
+                                            '<a href="'+adjuntoActual.ubicacion+'" class="btn-floating halfway-fab colorCampusChat" title="Descargar" download><i class="material-icons">file_download</i></a>'+
+                                          '</div>'+
+                                          '<div class="card-content">'+
+                                            '<span class="card-title truncate">'+adjuntoActual.nombre_archivo+'</span>'+
+                                            '<p class="truncate">'+adjuntoActual.descripcion+'</p>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>');              
+            }//if-else
+            
+          }//else externo
+
+        }//for
+
+
+      }//addAdjuntos
+
+      /******************************************************/
+
+
+
       function newChat(data) {
 
         var  curso = data.idCurso;
@@ -518,7 +482,7 @@
         $('#nav').show(); //muestro el encabezado con la información del usuario seleccionado
         $('#cargaArchivos').show(); 
         $('#infoUsuarioSeleccionado').show();                               
-        $('#footer').show(); //muestro el encabezado con la información del usuario seleccionado
+        $('#footer').show(); //muestro el encabezado con la información del usuario seleccionadofdgdf
         //Muestra el último mensaje
         $("#chatBody").animate({scrollTop: $(this).height()+100000}, 'fast');
         $('#chatBody').show(); //muestro la listas de mensajes        
@@ -614,7 +578,7 @@
                 */
 
                 var data = {
-                  contenido: mensaje.value,
+                  contenido: mensajeAdjunto.value,
                   id_transmisor: transmisor,
                   id_receptor: receptor,
                   id_grupo: grupo,
@@ -729,7 +693,6 @@
           default:
             console.warn('Evento del socket no reconocido por el servidor:',event.verb, event);
         }
-
       }); //io.socket.on chats 
 
 
@@ -794,7 +757,7 @@
         $('#archivoAdjuntoBtn').show(); 
         $('#listaArchivos').show(); 
 
-        $('#chatList').empty(); 
+        $('#chatList').empty();
         //Muestra los mensajes del chat seleccionado
         var idChatSeleccionado = data.idChat;
 
@@ -814,6 +777,7 @@
               if (data) {
                 chatSeleccionadoActual = chatActual.id_chat;
                 addMensajes(data.mensajesChat);
+                addAdjuntos(data.adjuntosChat);
               } 
             });//io.socket.get
           }
