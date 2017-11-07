@@ -165,7 +165,7 @@ module.exports = {
 
         if (idChat) {
         	//Recopilo los chat individuales del usuario
-            Mensajeschat.find({id_chat: idChat , sort: 'fecha_envio ASC'}).populate('id_receptor').populate('id_transmisor').populate('id_curso').exec(function (err, mensajes){
+            Mensajeschat.find({id_chat: idChat , sort: 'fecha_envio ASC'}).populate('id_receptor').populate('id_transmisor').populate('id_curso').populate('id_adjunto_chat').exec(function (err, mensajes){
 	        	if (err) {
 	              return res.serverError(err);
 	            }
@@ -174,7 +174,7 @@ module.exports = {
 	            }
 
                 //Recopilo los chat individuales del usuario
-                Adjuntochat.find({id_chat: idChat , sort: 'fecha_envio ASC'}).populate('id_transmisor').exec(function (err, adjuntos){
+                Adjuntochat.find({id_chat: idChat , sort: 'fecha_envio DESC'}).populate('id_transmisor').exec(function (err, adjuntos){
                     if (err) {
                       return res.serverError(err);
                     }
@@ -183,6 +183,7 @@ module.exports = {
                     }
 
                     //Retorna todos los mensajes y adjuntos correspondientes al chat seleccionado
+                    //console.log(mensajes);
                     res.json({
                         mensajesChat : mensajes, 
                         adjuntosChat : adjuntos
