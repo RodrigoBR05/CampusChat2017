@@ -188,7 +188,6 @@
        $('.modal').modal();
        //Appending HTML5 Audio Tag in HTML Body
        $('<audio id="chatAudio"><source src="/sound/notificacion.mp3" type="audio/mpeg"></audio>').appendTo('body');
-       setTimeout(function(){document.getElementById('mensaje').focus()}, 10);
      });
    </script>
 
@@ -493,7 +492,7 @@
       function addMensaje(data) {
 
         if ( chatSeleccionadoActual == data.id_chat.id_chat) {
-          //console.log(data);
+          console.log(data);
 
           if (data.id_curso) {
             

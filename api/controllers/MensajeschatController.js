@@ -44,7 +44,7 @@ module.exports = {
                     Mensajeschat.create({contenido: mensaje,id_transmisor: transmisor,id_receptor:receptor, id_chat: chat, id_adjunto_chat: records.id_adjunto_chat}).exec(function(err, mensaje){
                         if (err) { return res.serverError(err);}
                         //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
-                        Mensajeschat.findOne(mensaje.id_mensaje).populate('id_transmisor').populate('id_receptor').populate('id_chat').exec(function(err, message){
+                        Mensajeschat.findOne(mensaje.id_mensaje).populate('id_transmisor').populate('id_receptor').populate('id_chat').populate('id_adjunto_chat').exec(function(err, message){
                             if (err) {return res.serverError(err)};
                             if (!message) {
                                 return res.notFound('No se encontró el registro');
@@ -76,7 +76,7 @@ module.exports = {
                     Mensajeschat.create({contenido: mensaje,id_transmisor: transmisor,id_curso:grupo, id_chat: chat, id_adjunto_chat: records.id_adjunto_chat}).exec(function(err, mensaje){
                         if (err) { return res.serverError(err);}
                         //Recuperar el nuevo mensaje, con todos sus datos (transmisor, receptor, contenido)
-                        Mensajeschat.findOne(mensaje.id_mensaje).populate('id_transmisor').populate('id_curso').populate('id_chat').exec(function(err, message){
+                        Mensajeschat.findOne(mensaje.id_mensaje).populate('id_transmisor').populate('id_curso').populate('id_chat').populate('id_adjunto_chat').exec(function(err, message){
                             if (err) {return res.serverError(err)};
                             if (!message) {
                                 return res.notFound('No se encontró el registro');
