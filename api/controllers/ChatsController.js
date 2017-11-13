@@ -117,7 +117,7 @@ module.exports = {
 	          //console.log(findOr);
 
 	          //Recopilo los chat individuales del usuario
-	            Chats.find(findOr).populate('id_receptor').populate('id_transmisor').populate('id_curso').populate('messages').exec(function (err, chats){
+	            Chats.find(findOr).populate('id_receptor').populate('id_transmisor').populate('id_curso').exec(function (err, chats){
 	              if (err) {
 	                return res.serverError(err);
 	              }
@@ -153,6 +153,7 @@ module.exports = {
 	    }//if
 
 	  },
+	  
 	  create:function(req, res){
 	  	//Crear los chats individuales o grupales
 	    var socketId = sails.sockets.getId(req);
