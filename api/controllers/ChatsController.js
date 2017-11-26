@@ -94,9 +94,6 @@ module.exports = {
         } 
 
 
-	    if (usuarioActual.rol === 1) {
-	      /*Si es estudiante muestra a los compañeros, profesores y grupos*/
-
 	      Si_user.query(queryCompanieros, [usuarioActual.id, usuarioActual.id] ,function(err, companierosResult) {
 	        //Compañeros
 	        if (err) { return res.serverError(err); }
@@ -110,9 +107,9 @@ module.exports = {
 	          for(cursoActual of cursosResult){
 	          	cursosEstudiante = cursosEstudiante.concat([{ id_curso: cursoActual.idCurso}]);
 
-              }  
-              var queryOr = [{ id_transmisor:usuarioActual.id}, { id_receptor:usuarioActual.id}].concat(cursosEstudiante);
-              //Chats del usuario actual
+	          }  
+	          var queryOr = [{ id_transmisor:usuarioActual.id}, { id_receptor:usuarioActual.id}].concat(cursosEstudiante);
+	          //Chats del usuario actual
 	          var findOr = { or: queryOr ,sort: 'fecha_actualizacion DESC'}; 
 	          //console.log(findOr);
 
@@ -149,8 +146,6 @@ module.exports = {
 	        });
 
 	      });
-	      
-	    }//if
 
 	  },
 	  

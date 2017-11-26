@@ -27,43 +27,47 @@ main {
 .contenedorChat {
   margin: 0 auto;
   position: fixed;
-
-
-  overflow-y: scroll;
+  overflow-y: auto;
   will-change: transform;
 
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
 }
 
+/*
+* max-width: 600px; menor o igual a 600px
+* min-width: 600px; mayor o igual a 600px
+*/
+
 @media only screen and (max-width: 600px) {
   .contenedorChat {
-    width: 100%;
     height: 63%;
   }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (max-width: 992px) and (min-width: 600px) {
   .contenedorChat {
-    width: 100%;
-    height: 60%;
+    height: 75%;
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (max-width: 1200px) and (min-width: 993px) {
   .contenedorChat {
-    width: 73%;
     height: 70%;    
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (max-width: 1400px) and (min-width: 1200px) {
   .contenedorChat {
-    width: 75.7%;
-    width: 75%;    
+    height: 72%;    
   }
 }
 
+@media only screen and (min-width: 1401px) {
+  .contenedorChat {
+    height: 72%;    
+  }
+}
 
 .colorCampusChat {
   background-color: #C84A2B !important;

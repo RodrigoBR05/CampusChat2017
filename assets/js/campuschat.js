@@ -521,7 +521,7 @@ function addMensaje(data) {
 
 	        if (extension.match(/\.(jpg)|(jpeg)|(png)|(JPG)|(JPEG)|(PNG)$/) ) {
 
-	          $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	          $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/img_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_|-/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating white" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons colorCampusChat-text">file_download</i></a>'+
@@ -529,21 +529,21 @@ function addMensaje(data) {
 	                        '</li>'); 
 	        }else{
 	          if (extension.match(/\.(pdf)|(PDF)$/) ) {
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/pdf_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_|-/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating white" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons colorCampusChat-text">file_download</i></a>'+
 	                          '</p>'+
 	                        '</li>'); 
 	          }else if (extension.match(/\.(doc)|(docx)|(odt)|(DOC)|(DOCX)|(ODT)$/)) {
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/doc_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_|-/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating white" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons colorCampusChat-text">file_download</i></a>'+
 	                          '</p>'+
 	                        '</li>'); 
 	          }else if (extension.match(/\.(xls)|(xlsx)|(ods)|(XLS)|(XLSX)|(ODS)$/)){
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/xls_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_|-/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating white" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons colorCampusChat-text">file_download</i></a>'+
@@ -554,7 +554,7 @@ function addMensaje(data) {
 	        addAdjunto(data.id_adjunto_chat);
 
 	      }else{
-	        $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	        $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                            '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                            '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
 	                            '</p>'+
@@ -568,7 +568,7 @@ function addMensaje(data) {
 
 	        if (extension.match(/\.(jpg)|(jpeg)|(png)|(JPG)|(JPEG)|(PNG)$/) ) {
 
-	          $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	          $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/img_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating colorCampusChat" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons">file_download</i></a>'+
@@ -578,7 +578,7 @@ function addMensaje(data) {
 
 	        }else{
 	          if (extension.match(/\.(pdf)|(PDF)$/) ) {
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/pdf_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating colorCampusChat" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons">file_download</i></a>'+
@@ -587,7 +587,7 @@ function addMensaje(data) {
 	            $('#chatAudio')[0].play();
 
 	          }else if (extension.match(/\.(doc)|(docx)|(odt)|(DOC)|(DOCX)|(ODT)$/)) {
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/doc_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating colorCampusChat" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons">file_download</i></a>'+
@@ -596,7 +596,7 @@ function addMensaje(data) {
 	            $('#chatAudio')[0].play();
 
 	          }else if (extension.match(/\.(xls)|(xlsx)|(ods)|(XLS)|(XLSX)|(ODS)$/)){
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/xls_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating colorCampusChat" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons">file_download</i></a>'+
@@ -610,7 +610,7 @@ function addMensaje(data) {
 
 
 	      }else{
-	        $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	        $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+                                  
 	                          '</p>'+
@@ -629,7 +629,7 @@ function addMensaje(data) {
 
 	        if (extension.match(/\.(jpg)|(jpeg)|(png)|(JPG)|(JPEG)|(PNG)$/) ) {
 
-	          $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	          $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/img_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating white" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons colorCampusChat-text">file_download</i></a>'+
@@ -637,21 +637,21 @@ function addMensaje(data) {
 	                        '</li>'); 
 	        }else{
 	          if (extension.match(/\.(pdf)|(PDF)$/) ) {
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/pdf_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating white" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons colorCampusChat-text">file_download</i></a>'+
 	                          '</p>'+
 	                        '</li>'); 
 	          }else if (extension.match(/\.(doc)|(docx)|(odt)|(DOC)|(DOCX)|(ODT)$/)) {
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/doc_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating white" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons colorCampusChat-text">file_download</i></a>'+
 	                          '</p>'+
 	                        '</li>'); 
 	          }else if (extension.match(/\.(xls)|(xlsx)|(ods)|(XLS)|(XLSX)|(ODS)$/)){
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/xls_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating white" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons colorCampusChat-text">file_download</i></a>'+
@@ -663,7 +663,7 @@ function addMensaje(data) {
 
 
 	      }else{
-	        $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	        $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                            '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                            '<p class="mensajeTransmisor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+
 	                            '</p>'+
@@ -678,7 +678,7 @@ function addMensaje(data) {
 
 	        if (extension.match(/\.(jpg)|(jpeg)|(png)|(JPG)|(JPEG)|(PNG)$/) ) {
 
-	          $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	          $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/img_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating colorCampusChat" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons">file_download</i></a>'+
@@ -687,8 +687,8 @@ function addMensaje(data) {
 	          $('#chatAudio')[0].play();
 
 	        }else{
-	          if (extension.match(/\.(pdf)|(PDF)$/) ) {
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	          if (extension.match(/\.(pdf)|(PDF)$/) ) { 
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/pdf_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating colorCampusChat" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons">file_download</i></a>'+
@@ -697,7 +697,7 @@ function addMensaje(data) {
 	            $('#chatAudio')[0].play();
 
 	          }else if (extension.match(/\.(doc)|(docx)|(odt)|(DOC)|(DOCX)|(ODT)$/)) {
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/doc_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating colorCampusChat" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons">file_download</i></a>'+
@@ -706,7 +706,7 @@ function addMensaje(data) {
 	            $('#chatAudio')[0].play();
 
 	          }else if (extension.match(/\.(xls)|(xlsx)|(ods)|(XLS)|(XLSX)|(ODS)$/)){
-	            $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	            $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+'<br>'+
 	                            '<span class="valign-wrapper"> <img class="responsive-img" src="/images/xls_cc_w.png" alt="" width="50" height="50">&nbsp'+data.id_adjunto_chat.nombre_archivo.replace(/_/gi," ")+'&nbsp<a href="'+data.id_adjunto_chat.ubicacion+'" class="btn-floating colorCampusChat" title="Descargar" download="'+data.id_adjunto_chat.nombre_archivo+'"><i class="material-icons">file_download</i></a>'+
@@ -720,7 +720,7 @@ function addMensaje(data) {
 
 
 	      }else{
-	        $("#chatList").append('<li class="collection-item valign-wrapper col s12" style="background-color: rgba(0, 0, 0, 0)">'+
+	        $("#chatList").append('<li class="collection-item valign-wrapper col s12 m12 l12 xl12" style="background-color: rgba(0, 0, 0, 0)">'+
 	                          '<img title="'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'"src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
 	                          '<p class="mensajeReceptor" title="'+formatoFechaMensajes(data.fecha_envio)+'"><b>'+data.id_transmisor.name+' '+data.id_transmisor.last_name+' '+data.id_transmisor.last_name2+'</b><br>'+data.contenido+                                  
 	                          '</p>'+
@@ -818,16 +818,16 @@ $('#slide-out').empty();
 
 io.socket.get('/chats/chatsindex',function(data, response) {
 	cursos = data.cursos;
-	usuariosReceptores = data.companieros;
+	//usuariosReceptores = data.companieros;
 	chatsUsuario = data.chatsUsuario;
 	//Obtener todo lo relacionado con el usuario, contactos, grupos, chats.
 	for(cursoActual of data.cursos){
 	  addCursos(cursoActual);
 	}   
 
-	for(companieroActual of data.companieros){
-	  addCompanieros(companieroActual);
-	}   
+	//for(companieroActual of data.companieros){
+	getContactos();
+	//}   
 
 	addEncabezadoListaChatsUsuarios();
 	for(chatActual of data.chatsUsuario){
@@ -1143,8 +1143,8 @@ function addEncabezadoListaChatsUsuarios(){
 	                          '<nav class="top-nav colorCampusChat">'+
 	                            '<div class="row">'+
 	                              '<div class="valign-wrapper col s8 m8 l8 xl8 offset-s1 offset-m1 offset-l1 offset-xl1">'+
-	                                  '<img title=" " src="'+transmisorImagen+'" alt="" class="circle responsive-img" width="50" height="50"> '+
-	                                  '<span id="nombreUsuarioSeleccionado" class="white-text"><b>&nbsp;'+transmisorNombre+' '+transmisorApellido+'</b></span>'+
+	                                  '<img title=" " id="imgContactDefault'+transmisorImagen+'" src="'+transmisorImagen+'" alt="" onerror="defaultImage(this.id)" class="circle responsive-img" width="50" height="50"> '+
+	                                  '<span id="nombreUsuarioSeleccionado" class="white-text"><b>&nbsp;&nbsp;'+transmisorNombre+' '+transmisorApellido+'</b></span>'+
 	                              '</div>'+
 	                             '</div>'+                       
 	                          '</nav>'+
@@ -1185,8 +1185,8 @@ function addListaChatsUsuarios(data) {
 	  $("#slide-out").append('<li>'+
 	                            '<a href="#" onclick="mostrarMensajes({idChat:'+data.id_chat+'});return false;">'+
 	                              '<div class="valign-wrapper">'+
-	                                  '<img src="'+data.id_receptor.imagen+'" alt="" class="circle responsive-img" width="50" height="50"> '+
-	                                  '<span class="black-text">'+
+	                                  '<img id="imgContactDefault'+data.id_chat+'"  src="'+data.id_receptor.imagen+'" alt="" onerror="defaultImage(this.id)" class="circle responsive-img" width="50" height="50"> '+
+	                                  '<span class="black-text">&nbsp;&nbsp; '+
 	                                    data.id_receptor.name+" "+data.id_receptor.last_name+
 	                                  '</span>'+
 	                              '</div>'+
@@ -1198,7 +1198,7 @@ function addListaChatsUsuarios(data) {
 	  $("#slide-out").append('<li>'+
 	                            '<a href="#" onclick="mostrarMensajes({idChat:'+data.id_chat+'});return false;">'+
 	                              '<div class="valign-wrapper">'+
-	                                  '<img src="'+data.id_transmisor.imagen+'" alt="" class="circle responsive-img" width="50" height="50"> '+
+	                                  '<img id="imgContactDefault'+data.id_chat+'" src="'+data.id_transmisor.imagen+'" alt=""  onerror="defaultImage(this.id)" class="circle responsive-img" width="50" height="50"> '+
 	                                  '<span class="black-text">'+
 	                                    data.id_transmisor.name+" "+data.id_transmisor.last_name+
 	                                  '</span>'+
@@ -1218,16 +1218,54 @@ function addListaChatsUsuarios(data) {
 * @descripción: Agrega a la lista de contactos los compañeros relacionados con el usuario 
 */
 function addCompanieros(data) { 
-	//Agregar los usuarios relacionados a la lista de contactos
-	$("#contactosList").append('<li class="collection-item avatar">'+
-	                                  '<a href="#" onclick="usuarioSeleccionado({ idCompaniero:'+data.idCompaniero+' });return false;'+'">'+
-	                                    '<img src="'+data.imagen+'" alt="" class="circle responsive-img" width="50" height="50">'+
-	                                    '<span class="title black-text">Estudiante</span>'+
-	                                    '<p class="black-text">'+data.nombreCompaniero+" "+data.apellido1Companiero+'</p>'+
-	                                    '<a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>'+
-	                                  '</a>'+
-	                                '</li>'); 
+
+	for(companieroActual of data.contactos){
+		//Agregar los usuarios relacionados a la lista de contactos
+		$("#contactosList").append('<li class="collection-item avatar">'+
+		                                  '<a href="#" onclick="usuarioSeleccionado({ idCompaniero:'+companieroActual.nIdUsuarioCampus+' });return false;'+'">'+
+		                                    '<img id="imgContactDefault'+companieroActual.nIdUsuarioCampus+'" src="'+companieroActual.strUrlFotografia+'" alt="" onerror="defaultImage(this.id)" class="circle responsive-img" width="50" height="50">'+
+		                                    '<span class="title black-text">'+companieroActual.strEtiqueta+'</span>'+
+		                                    '<p class="black-text">'+companieroActual.strNombre+'</p>'+
+		                                    '<a  class="secondary-content"><i class="material-icons colorCampusChat-text">message</i></a>'+
+		                                  '</a>'+
+		                                '</li>');
+	}   
+	
 }//addCompanieros
+
+
+function defaultImage(id){
+	document.getElementById(id).src = "https://cloudcampuspro.com/images/avatarerror.jpg";
+}
+
+
+/*
+* @author: Rodrigo
+* @modificado por:
+*/
+/**
+* @descripción: Trae los contactos del usuario, utilizar el Api contactos de CC 
+*/
+function getContactos() {
+	$.ajax({
+          url: "https://azp40rxdwh.execute-api.us-east-1.amazonaws.com/cloudcampus/services/rest/api/v1/app/contactos",
+          type: "POST",          
+          headers: {
+            'Content-Type': 'application/json', 'strSessionId': '79F6449E-C742-11E7-A06E-126CD762F390', 
+            'Access-Control-Allow-Origin': '*'
+          },
+          dataType: 'json',
+          data: JSON.stringify({nIdUsuario:transmisorId}),
+          success: function(contactosRes){
+            usuariosReceptores = contactosRes.contactos;  
+            addCompanieros(contactosRes);              
+          },            
+          error: function (){ // Si hay algún error.
+            alert("Los contactos no fueron cargados correctamente, actualice la página");
+          }
+      });
+}
+
 
 
 /*
