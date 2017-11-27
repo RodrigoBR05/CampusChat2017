@@ -12,33 +12,34 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>CAMPUS CHAT API</title>
-    
+    <!--Prueba desde atom...!!-->
+
   </head>
 
-  <body>    
-    
+  <body>
+
     <header>
-    
+
       <nav class="top-nav colorCampusChat">
-        
+
         <a href="#" title="Chats" data-activates="slide-out" class="left button-collapse top-nav circle hide-on-large-only"><i class="material-icons">menu</i></a>
 
         <div class="row">
           <a class="modal-trigger" href="#archivos" id="infoUsuarioSeleccionado" title="Presiona para ver los archivos" style="display:none">
             <div class="valign-wrapper">
-                <img id="imagenUsuarioSeleccionado" src="" alt="" class="circle responsive-img" width="50" height="50"> 
+                <img id="imagenUsuarioSeleccionado" src="" alt="" class="circle responsive-img" width="50" height="50">
                 <span id="nombreUsuarioSeleccionado" class="white-text"></span>
             </div>
-          </a>         
+          </a>
         </div>
-                   
-      </nav>
-      
 
-      <ul id="slide-out" class="side-nav fixed">  </ul>     
-      
+      </nav>
+
+
+      <ul id="slide-out" class="side-nav fixed">  </ul>
+
     </header>
-    
+
     <main>
 
         <!--Menú de opciones envío de archivos-->
@@ -60,13 +61,13 @@
         </div>
 
         <div class="container center" id="logoInicio">
-          <img class="responsive-img" width="650" src="/images/logo2.png">                    
+          <img class="responsive-img" width="650" src="/images/logo2.png">
         </div>
-        
-        <div id="chatBody" class="row"> 
+
+        <div id="chatBody" class="row">
           <ul class="collection contenedorChat" id="chatList" style="background-color: rgba(0, 0, 0, 0)"></ul>
         </div>
-        
+
         <!--***************************MODAL PARA EL ENVÍO DE ARCHIVOS*****************************-->
         <!-- Modal Structure enviarArchivos-->
         <div id="enviarArchivosModal" class="modal modal-fixed-footer">
@@ -78,7 +79,7 @@
 
             <div class="row center">
               <div class="col s12">
-                <span id="tituloArchivoSeleccionado"></span>                                               
+                <span id="tituloArchivoSeleccionado"></span>
               </div>
               <img id="imagenArchivoSeleccionado" src="" alt="" class="responsive-img">
             </div>
@@ -98,9 +99,9 @@
                     </div>
                   </div>
                 </form>
-              </div> 
+              </div>
 
-            </div> 
+            </div>
           </div>
         </div>
         <!--**********************FINAL MODAL PARA EL ENVÍO DE ARCHIVOS*****************************-->
@@ -113,7 +114,7 @@
               <span style="font-size: 2.28rem">&nbsp&nbspContactos</span>
             </div>
               <ul class="collection" id="contactosList">
-                
+
               </ul>
           </div>
         </div>
@@ -121,15 +122,15 @@
         <!-- Estructura del modal de archivos del usuario-->
          <div id="archivos" class="modal bottom-sheet">
             <div class="modal-content">
-              <div class="container">                
+              <div class="container">
                 <div class="row valign-wrapper">
                   <i class="modal-action modal-close material-icons" title="Cerrar">close</i>
                   <span style="font-size: 2.28rem">&nbsp&nbspMultimedia y documentos</span>
                 </div>
               </div>
 
-              <div class="container">                
-              
+              <div class="container">
+
                 <div class="row">
                   <div class="col s12" style="overflow-y: hidden;">
                     <ul class="tabs">
@@ -138,7 +139,7 @@
                     </ul>
                   </div>
                 </div>
-        
+
                 <div id="multimedia" class="row"> </div>
 
                 <div id="documentos" class="row"> </div>
@@ -150,7 +151,7 @@
     </main>
 
     <footer>
-      <div class="container">        
+      <div class="container">
         <div class="row" id="footer" style="display:none">
           <form onsubmit="return false;">
             <div class="row">
@@ -163,7 +164,7 @@
               </div>
             </div>
           </form>
-        </div>   
+        </div>
       </div>
     </footer>
 
@@ -181,22 +182,22 @@
      $( document ).ready(function(){
        $('.button-collapse').sideNav({
           closeOnClick: true,
-       });      
+       });
        $('.modal').modal();
        //Agrega una etiqueta de audio al body html
        $('<audio id="chatAudio"><source src="/sound/notificacion.mp3" type="audio/mpeg"></audio>').appendTo('body');
      });
    </script>
 
-   <script>    
-     //Variables     
+   <script>
+     //Variables
      //Usuarios
      //Datos del usuario que inicio sesión
      var transmisorId = '<%= session.user.id  %>';
      var transmisorNombre = '<%= session.user.name.substr(0,11)  %>';
      var transmisorApellido = '<%= session.user.last_name.substr(0,1)%>';
-     var transmisorImagen = '<%= session.user.imagen  %>'; 
-      
+     var transmisorImagen = '<%= session.user.imagen  %>';
+
    </script>
 
   </body>
