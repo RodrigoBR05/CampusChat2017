@@ -49,6 +49,9 @@ module.exports.connections = {
      user: 'root', //optional
      password: '', //optional
      database: 'cloudcam_campus', //optional
+     //TEST ANTES DE CONEXIÓN A CAMPUS CHAT
+     //TEST ANTES DE CONEXIÓN A CAMPUS CHAT 2
+
   },
 
   /***************************************************************************
