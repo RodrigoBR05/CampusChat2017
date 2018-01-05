@@ -44,13 +44,11 @@ module.exports.connections = {
   ***************************************************************************/
   mysql: {
      adapter: 'sails-mysql',
-     host: 'localhost',
+     host: 'cloudcamdb.ceym2s0lkzzt.us-east-1.rds.amazonaws.com',
      port: 3306,
-     user: 'root', //optional
-     password: '', //optional
+     user: 'cloudcam', //optional
+     password: '2592808', //optional
      database: 'cloudcam_campus', //optional
-     //TEST ANTES DE CONEXIÓN A CAMPUS CHAT
-     //TEST ANTES DE CONEXIÓN A CAMPUS CHAT 2
 
   },
 

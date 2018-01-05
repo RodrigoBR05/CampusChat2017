@@ -4,8 +4,10 @@
  * @description :: Server-side logic for managing sessions
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+var md5 = require('md5');
 
 module.exports = {
+
 
 	new:function (req, res){
 		res.view();
@@ -13,7 +15,8 @@ module.exports = {
 	create:function(req, res, next){
 
 		var email = req.param('email');
-		var password = req.param('password');
+		var password = md5(req.param('password'));
+
 		//console.log(email+' - '+password);
 		if (!email || !password) {
 			var noEmailOrPasswordError = [{message: 'Debe ingresar su email y contraseña'}]
