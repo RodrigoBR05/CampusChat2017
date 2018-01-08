@@ -31,10 +31,15 @@ module.exports = {
 
 
         if (archivoAdjunto) {
-            console.log(archivoAdjunto);
+            //console.log(archivoAdjunto);
+            console.log('TEST ARCHIVO ADJUNTO');
             let ubicacion = archivoAdjunto.files[0].fd.substr(85);
             let nombreArchivo = archivoAdjunto.files[0].filename;
             let tipoArchivo = archivoAdjunto.files[0].type;
+
+            console.log(ubicacion);
+            console.log(nombreArchivo);
+            console.log(tipoArchivo);
 
             //Crear el mensaje
             if (receptor) { 

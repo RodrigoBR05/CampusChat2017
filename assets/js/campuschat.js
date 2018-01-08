@@ -831,7 +831,8 @@ io.socket.get('/chats/chatsindex',function(data, response) {
 
 	addEncabezadoListaChatsUsuarios();
 	for(chatActual of data.chatsUsuario){
-	  addListaChatsUsuarios(chatActual);
+		console.log(chatActual);
+		addListaChatsUsuarios(chatActual);
 	}     
 });//io.socket.get
 
@@ -1076,10 +1077,10 @@ function addEncabezadoChat(data){
 	  document.getElementById("imagenUsuarioSeleccionado").src = "/images/curso.png";
 	  $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+grupo.codigo);
 	}else if (transmisorId == usuarioTransmisorChat.id) {
-	  document.getElementById("imagenUsuarioSeleccionado").src = usuarioReceptorChat.imagen;
+	  document.getElementById("imagenUsuarioSeleccionado").src = 'https://cloudcampuspro.com/'+usuarioReceptorChat.imagen;
 	  $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuarioReceptorChat.name+' '+usuarioReceptorChat.last_name);
 	}else{
-	  document.getElementById("imagenUsuarioSeleccionado").src = usuarioTransmisorChat.imagen;
+	  document.getElementById("imagenUsuarioSeleccionado").src = 'https://cloudcampuspro.com/'+usuarioTransmisorChat.imagen;
 	  $("#nombreUsuarioSeleccionado").html('&nbsp&nbsp'+usuarioTransmisorChat.name+' '+usuarioTransmisorChat.last_name);
 	}
 	$('#infoUsuarioSeleccionado').show();         
@@ -1185,7 +1186,7 @@ function addListaChatsUsuarios(data) {
 	  $("#slide-out").append('<li>'+
 	                            '<a href="#" onclick="mostrarMensajes({idChat:'+data.id_chat+'});return false;">'+
 	                              '<div class="valign-wrapper">'+
-	                                  '<img id="imgContactDefault'+data.id_chat+'"  src="'+data.id_receptor.imagen+'" alt="" onerror="defaultImage(this.id)" class="circle responsive-img" width="50" height="50"> '+
+	                                  '<img id="imgContactDefault'+data.id_chat+'"  src="https://cloudcampuspro.com/'+data.id_receptor.imagen+'" alt="" onerror="defaultImage(this.id)" class="circle responsive-img" width="50" height="50"> '+
 	                                  '<span class="black-text">&nbsp;&nbsp; '+
 	                                    data.id_receptor.name+" "+data.id_receptor.last_name+
 	                                  '</span>'+
@@ -1198,7 +1199,7 @@ function addListaChatsUsuarios(data) {
 	  $("#slide-out").append('<li>'+
 	                            '<a href="#" onclick="mostrarMensajes({idChat:'+data.id_chat+'});return false;">'+
 	                              '<div class="valign-wrapper">'+
-	                                  '<img id="imgContactDefault'+data.id_chat+'" src="'+data.id_transmisor.imagen+'" alt=""  onerror="defaultImage(this.id)" class="circle responsive-img" width="50" height="50"> '+
+	                                  '<img id="imgContactDefault'+data.id_chat+'" src="https://cloudcampuspro.com/'+data.id_transmisor.imagen+'" alt=""  onerror="defaultImage(this.id)" class="circle responsive-img" width="50" height="50"> '+
 	                                  '<span class="black-text">'+
 	                                    data.id_transmisor.name+" "+data.id_transmisor.last_name+
 	                                  '</span>'+
