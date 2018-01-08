@@ -37,7 +37,7 @@ module.exports = {
             let nombreArchivo = archivoAdjunto.files[0].filename;
             let tipoArchivo = archivoAdjunto.files[0].type;
 
-            let ubicacionTest = archivoAdjunto.files[0].fd;
+            let ubicacionTest = archivoAdjunto.files[0].fd.substr(53);;
 
             console.log(ubicacionTest);
             console.log(nombreArchivo);
