@@ -201,6 +201,8 @@ module.exports = {
         var imagen = req.param('imagen');
         var archivo = req.param('archivo');
 
+        console.log(sails.config.appPath);
+
         if (imagen) {
             req.file('file').upload({
               dirname: require('path').resolve(sails.config.appPath, 'assets/imagesCC')
