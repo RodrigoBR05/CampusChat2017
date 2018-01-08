@@ -33,15 +33,12 @@ module.exports = {
         if (archivoAdjunto) {
             //console.log(archivoAdjunto);
             console.log('TEST ARCHIVO ADJUNTO');
-            let ubicacion = archivoAdjunto.files[0].fd.substr(85);
+            //localhost 
+            //let ubicacion = archivoAdjunto.files[0].fd.substr(85);
+            //Servidor aws
+            let ubicacion = archivoAdjunto.files[0].fd.substr(51);
             let nombreArchivo = archivoAdjunto.files[0].filename;
             let tipoArchivo = archivoAdjunto.files[0].type;
-
-            let ubicacionTest = archivoAdjunto.files[0].fd.substr(51);;
-
-            console.log(ubicacionTest);
-            console.log(nombreArchivo);
-            console.log(tipoArchivo);
 
             //Crear el mensaje
             if (receptor) { 
