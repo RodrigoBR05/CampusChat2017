@@ -38,6 +38,8 @@ module.exports = {
             let nombreArchivo = archivoAdjunto.files[0].filename;
             let tipoArchivo = archivoAdjunto.files[0].type;
 
+            console.log(ubicacion);
+
             //Crear el mensaje
             if (receptor) { 
 
