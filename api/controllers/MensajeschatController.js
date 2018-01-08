@@ -34,11 +34,9 @@ module.exports = {
             //localhost 
             //let ubicacion = archivoAdjunto.files[0].fd.substr(85);
             //Servidor aws
-            let ubicacion = archivoAdjunto.files[0].fd.substr(51);
+            let ubicacion = archivoAdjunto.files[0].fd.substr(36);
             let nombreArchivo = archivoAdjunto.files[0].filename;
             let tipoArchivo = archivoAdjunto.files[0].type;
-
-            console.log(archivoAdjunto.files[0].fd);
 
             //Crear el mensaje
             if (receptor) { 
