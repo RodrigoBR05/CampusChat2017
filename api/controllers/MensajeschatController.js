@@ -11,7 +11,6 @@ module.exports = {
 	create:function(req,res){
 
         //GRAN PROBLEMA, LIMPIAR LAS VARIABLES RECEPTOR Y GRUPO, DESPUES DE SELECCIONADO
-
         var mensaje = req.param('contenido');
         var transmisor = req.param('id_transmisor');
         var receptor = req.param('id_receptor');
@@ -32,7 +31,6 @@ module.exports = {
 
         if (archivoAdjunto) {
             //console.log(archivoAdjunto);
-            console.log('TEST ARCHIVO ADJUNTO');
             //localhost 
             //let ubicacion = archivoAdjunto.files[0].fd.substr(85);
             //Servidor aws
